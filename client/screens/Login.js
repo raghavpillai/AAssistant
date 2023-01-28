@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
       marginLeft: '10%',
       borderRadius: 10,
-      marginTop: '30%'
+      marginTop: '60%'
     },
     label: {
         color: '#ffffff'
     },
     logo: {
       position: 'absolute',
-      marginTop: '-50%',
+      marginTop: '-5%',
       width: '100%',
 
     }
