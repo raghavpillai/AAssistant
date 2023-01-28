@@ -15,7 +15,7 @@ export default function Widget(){
                 <Text style={[styles.item]}>San Francisco</Text>
             </View>
             <View>
-                <Progress.Bar progress={0.1} width={280} color={'rgba(71,137,223, 1)'} borderColor={"black"} borderWidth={.4} style={[styles.bar, styles.spacersm]}/>
+                <Progress.Bar progress={0.1} width={320} color={'rgba(71,137,223, 1)'} borderColor={"black"} borderWidth={.4} style={[styles.bar, styles.spacersm]}/>
             </View>
             <View style={[styles.row, styles.spacersm]}> 
                 <Text style={[styles.item, styles.light, styles.bold]}>Departure</Text>

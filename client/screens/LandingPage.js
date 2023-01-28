@@ -22,6 +22,8 @@ const LandingPage = () => (
       
       <View style={styles.widget}><Widget /></View>
       
+      <View style={styles.task}></View>
+
       <View style={styles.card}></View>
 
     </ImageBackground>
@@ -65,8 +67,22 @@ const styles = StyleSheet.create({
     height: 1000,
   },
   card: {
-    
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 7,
+    height: '40%',
+    width: '90%',
+    marginLeft: '5%',
+    marginTop: '5%'
+  },
+  task: {
+    marginTop: '-192%',
+    marginLeft: '5%',
+    height: '10%',
+    width: '90%',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 7,
   }
+  
 });
 
 export default LandingPage;
