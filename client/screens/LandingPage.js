@@ -1,5 +1,6 @@
 import React from 'react';
-import {ImageBackground, StyleSheet, Text, View, Box, Image} from 'react-native';
+import { useState } from 'react';
+import {ImageBackground, StyleSheet, Text, View, Box, Image, Button} from 'react-native';
 
 import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
 import aa from '../assets/aatop.png'
@@ -8,7 +9,23 @@ import chat from '../assets/chat.png'
 import mail from '../assets/mail.png'
 import Widget from '../components/Widget.js'
 
-const LandingPage = () => (
+export default function LandingPage() {
+    const [view, setView] = useState(0)
+
+    const handleClick = (side) => {
+      if(side === "left"){
+          if(view == 0){
+              setView(4)
+          }
+          else{
+              setView(Math.abs(view-1)%5)
+          }
+      }
+      else{
+          setView(Math.abs(view+1)%5)
+      }
+    }
+    return(
 
     <ImageBackground source={bgimg} resizeMode="cover" style={styles.image}>
       <View style={styles.top}>
@@ -25,16 +42,21 @@ const LandingPage = () => (
       <View style={styles.task}>
         <View style={[styles.spacersm, styles.row]}>
           <Text style={[styles.light, styles.bold]}>Task</Text>
-          <Text style={[styles.bold, styles.major]}>Check into security in 48h</Text>
+          <Text style={[styles.bold, styles.major]}>Check into the airport in 48h</Text>
         </View>
       </View>
 
-      <View style={styles.card}></View>
+      <View style={styles.card}>
+        <Button title="left" onPress={()=>handleClick("left")} />
+        <Text>{view}</Text>
+        <Button title="right" onPress={()=>handleClick("right")} />
+      </View>
 
     </ImageBackground>
+    )
     
 
-);
+};
 
 const styles = StyleSheet.create({
   image: {
@@ -107,5 +129,3 @@ const styles = StyleSheet.create({
 
   
 });
-
-export default LandingPage;
