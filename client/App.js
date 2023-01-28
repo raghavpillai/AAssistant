@@ -3,13 +3,14 @@ import React from "react";
 import { NativeBaseProvider, extendTheme, Text, Box, View } from "native-base";
 import {StyleSheet} from 'react-native';
 import Login from './screens/Login.js'
-
+import LandingPage from "./screens/LandingPage.js";
 export default function App() {
   // 2. Use at the root of your app
   return (
     <NativeBaseProvider theme={theme}>
       <View style={styles.container}>
-        <Login />
+        {/* <LandingPage/> */}
+        <Login/>
       </View>
     </NativeBaseProvider>
   );
