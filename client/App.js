@@ -18,7 +18,7 @@ export default function App() {
         <NavigationContainer>
           <Tab.Navigator screenOptions={{headerShown: false}}>
             <Tab.Screen name="Home" component={Login}/>
-            <Tab.Screen name="Settings" component={LandingPage}/>
+            <Tab.Screen name="Status" component={LandingPage}/>
           </Tab.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

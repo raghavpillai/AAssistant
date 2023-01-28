@@ -7,7 +7,7 @@ export default function Widget(){
       <>
         <View style={styles.container}>
             <View style={[styles.row, styles.spacersm]}> 
-                <Text style={[styles.item, styles.bold]}>ENG</Text>
+                <Text style={[styles.item, styles.bold]}>LHR</Text>
                 <Text style={[styles.item, styles.bold]}>SFO</Text>
             </View>
             <View style={styles.row}> 
@@ -42,9 +42,10 @@ export default function Widget(){
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        borderRadius: 10,
-        width: '80%',
-        height: '24%'
+        borderRadius: 7,
+        width: '95%',
+        height: '20%'
+       
     },
     row: {
         display: 'flex',
