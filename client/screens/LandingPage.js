@@ -22,7 +22,12 @@ const LandingPage = () => (
       
       <View style={styles.widget}><Widget /></View>
       
-      <View style={styles.task}></View>
+      <View style={styles.task}>
+        <View style={[styles.spacersm, styles.row]}>
+          <Text style={[styles.light, styles.bold]}>Task</Text>
+          <Text style={[styles.bold, styles.major]}>Check into security in 48h</Text>
+        </View>
+      </View>
 
       <View style={styles.card}></View>
 
@@ -81,7 +86,25 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 7,
-  }
+  },
+  col: {
+    display: 'flex',
+    flexDirection: 'column',
+  },    
+  bold: {
+    fontWeight: 'bold'
+  },
+  spacersm: {
+      marginTop: '5%',
+      marginLeft: '5%'
+  },
+  light: {
+    color: "#bbbcc0"
+  },
+  major: {
+    fontSize: '20px'
+  },
+
   
 });
 
