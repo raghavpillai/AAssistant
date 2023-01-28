@@ -1,4 +1,8 @@
 from collections import defaultdict
+import requests
+import dateutil.parser
+from datetime import timedelta
+import random
 
 flight_data = {
     "AA 1511": {
@@ -107,6 +111,30 @@ class Flights:
     
     @classmethod
     def populate_flights(cls):
+        try:
+            r = requests.get("http://localhost:4000/flights", params={"date": "2023-01-29", "origin": "DFW"})
+        except:
+            cls.populate_flights_fallback()
+            return
+        data = r.json()
+        
+        for f_data in data:
+            f_num = "AA" + f_data.get("flightNumber")
+            departure_time = dateutil.parser.isoparse(f_data.get("departureTime"))
+            boarding_time = departure_time - timedelta(minutes=45)
+            gate = f"C{random.randint(1, 30):02}"
+
+            cls.flights[f_num] = Flight(
+                f_num,
+                f_data.get("aircraft").get("model"),
+                boarding_time.strftime("%H:%M"),
+                departure_time.strftime("%H:%M"),
+                gate
+            )
+    
+    @classmethod
+    def populate_flights_fallback(cls):
+        print("fallback called")
         for f_num, f_data in flight_data.items():
             cls.flights[f_num] = Flight(
                 f_num,
