@@ -111,7 +111,11 @@ class Flights:
     
     @classmethod
     def populate_flights(cls):
-        r = requests.get("http://localhost:4000/flights", params={"date": "2023-01-29", "origin": "DFW"})
+        try:
+            r = requests.get("http://localhost:4000/flights", params={"date": "2023-01-29", "origin": "DFW"})
+        except:
+            cls.populate_flights_fallback()
+            return
         data = r.json()
         
         for f_data in data:
@@ -126,4 +130,16 @@ class Flights:
                 boarding_time.strftime("%H:%M"),
                 departure_time.strftime("%H:%M"),
                 gate
+            )
+    
+    @classmethod
+    def populate_flights_fallback(cls):
+        print("fallback called")
+        for f_num, f_data in flight_data.items():
+            cls.flights[f_num] = Flight(
+                f_num,
+                f_data.get("plane_type"),
+                f_data.get("boarding_time"),
+                f_data.get("departure_time"),
+                f_data.get("gate")
             )
