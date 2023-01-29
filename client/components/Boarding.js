@@ -51,7 +51,7 @@ import {
             .then(res => {
               setStatus(res[1].flight.status)
         })
-      }, 3000);
+      }, 1000);
 
       return () => {
         clearInterval(interval);
@@ -61,7 +61,7 @@ import {
     return (
       <>
         <View style={styles.container}>
-            <Text style={styles.text}>Group 1 is now boarding</Text>
+            <Text style={styles.text}>{status}</Text>
             <Progress.Bar progress={items[status]/6} width={315} color={'rgba(51,117,203,1)'} borderColor={"gray"} borderWidth={.4} style={styles.bar}/>
         </View>
       </>
@@ -85,7 +85,8 @@ import {
         textAlign: 'center'
       },
       bar: {
-        marginLeft: "5.5%"
+        marginLeft: "5.5%",
+        marginTop: "20%"
       }
   });
   
