@@ -25,7 +25,7 @@ class SessionHandler:
             case "get_bag_db":
                 return ActionHandler.get_bags_from_flight(request["flight_number"])
             case "get_travel_times":
-                return ActionHandler.get_travel_times(request["username"])
+                return ActionHandler.get_travel_times(username, request["gate"])
         
         # Change status (arrived, security, available, boarding)
         # Checkin bags (how many bags to checkin)
