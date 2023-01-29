@@ -20,7 +20,6 @@ export default function FindTrip({ navigation }) {
 
   const handleClick = () => {
     console.log(user)
-    console.log(user.name)
     console.log(ticket)
     fetch('http://127.0.0.1:5000/api/post', {
       method: "POST",
@@ -30,13 +29,12 @@ export default function FindTrip({ navigation }) {
       body: JSON.stringify({
         "username": user.name,
         "query": {
-            "type": "get_flight_status",
-            "flight_number": ticket.value
+            "type": "validate_ticket",
+            "ticket_number": ticket.value
         }
       })
     }).then(response => response.json())
     .then(res => {
-      console.log(res)
       setTicket(res)
       navigation.navigate('Dashboard')
     })

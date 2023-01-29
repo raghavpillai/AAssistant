@@ -14,16 +14,18 @@ import ToSecurity from '../components/ToSecurity';
 import ToGate from '../components/ToGate';
 import Boarding from '../components/Boarding';
 import SeatFinal from '../components/SeatFinal'
+import DelayBreakdown from '../components/DelayBreakdown';
 
 import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
 
-import { loggedState, ticketNum } from '../store/States';
+import { loggedState, ticketNum, securityGate } from '../store/States';
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
 
     const [user, setU] = useRecoilState(loggedState)
     const [ticket, setTicket] = useRecoilState(ticketNum)
+    const [security, setSecurity] = useRecoilState(securityGate)
     
     const Page = () => {
         if (view == 0){
@@ -33,16 +35,22 @@ export default function LandingPage() {
             return(<BagConfirmation/>)
         }
         else if (view == 2) {
-          return(<ToSecurity security={ticket[1].flight.gate}/>)
+          console.log(security)
+          return(<ToSecurity security={security}/>)
         }
         else if (view == 3) {
-          return (<ToGate security={"D22"} gate={"25"}/>)
+          return (<ToGate security={security} gate={ticket[1][0].gate}/>)
         }
         else if (view == 4) {
           return (<Boarding/>)
         }
-        else 
+        else if(view == 5) {
           return (<SeatFinal/>)
+        }
+        else {
+          return  (<DelayBreakdown />)
+        }
+          
           
     }
 
@@ -62,8 +70,11 @@ export default function LandingPage() {
         else if (view == 4) {
           return (<Text>Wait for your group to be called</Text>)
         }
-        else 
+        else if (view == 5)
           return (<Text>Make your way to your seat</Text>)
+        else {
+          return (<Text>View your time break down</Text>)
+        }
     }
 
     const handleClick = (side) => {
@@ -76,8 +87,8 @@ export default function LandingPage() {
           }
       }
       else{
-        if (view == 5) {
-          setView(5)
+        if (view == 6) {
+          setView(6)
         }
         else
           setView(Math.abs(view+1))
@@ -97,9 +108,9 @@ export default function LandingPage() {
       
       <View style={styles.widget}>
         <Widget 
-          departure={ticket[1].flight.departure_time}
-          flightNum={ticket[1].flight.name}
-          gate={ticket[1].flight.gate}
+          departure={ticket[1][0].departure_time}
+          flightNum={ticket[1][0].name}
+          gate={ticket[1][0].gate}
         />
       </View>
       

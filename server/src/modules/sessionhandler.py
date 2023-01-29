@@ -1,5 +1,6 @@
 
 from src.modules.flights import ActionHandler
+from src.modules.securitygates import SecurityGates
 
 class SessionHandler:
 
@@ -36,6 +37,7 @@ class SessionHandler:
 
     @classmethod
     def initialize(cls):
+        SecurityGates.fetch_gates()
         #ActionHandler.populate_flights()
         #ActionHandler.populate_users()
         #print(ActionHandler.get_bags_from_flight("AA 1511"))

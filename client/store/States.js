@@ -26,3 +26,13 @@ export const bagIds = atom({
     key: 'bagIds',
     default: ''
 })
+
+export const securityGate = atom({
+    key: 'securityGate',
+    default: ''
+})
+
+export const timeDelay = atom({
+    key: 'timeDelay',
+    default: 0
+})
