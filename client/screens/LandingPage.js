@@ -21,6 +21,9 @@ export default function LandingPage() {
             return(<CheckInButton/>)
         }
         else if(view == 1){
+            return(<CheckInButton func={setView}/>)
+        }
+        else{
             return(<BagSeat />)
         }
         else if (view == 2){
@@ -71,7 +74,7 @@ export default function LandingPage() {
               <Button title="back" style={styles.btn1} onPress={()=>handleClick("left")} />
               <Button title="next" style={styles.btn2} onPress={()=>handleClick("right")} />
             </View>
-            <Page style={styles.page} func={handleClick}/>
+            <Page style={styles.page}/>
         </View>
     </ImageBackground>
     )
