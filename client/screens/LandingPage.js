@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import {ImageBackground, StyleSheet, Text, View, Box, Image, Button} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View, Box, Image, Button, Pressable} from 'react-native';
 
 import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
 import aa from '../assets/aatop.png'
@@ -14,6 +14,8 @@ import BagSeat from '../components/BagSeat';
 import BagConfirmation from '../components/BagConfirmation';
 import ToSecurity from '../components/ToSecurity';
 import ToGate from '../components/ToGate';
+import Boarding from '../components/Boarding';
+import SeatFinal from '../components/SeatFinal'
 
 
 export default function LandingPage() {
@@ -23,7 +25,7 @@ export default function LandingPage() {
             return(<CheckInButton func={setView}/>)
         }
         else if (view == 1){
-            return(<BagSeat />)
+            return(<BagSeat func={setView}/>)
         }
         else if (view == 2){
             return(<BagConfirmation/>)
@@ -34,22 +36,26 @@ export default function LandingPage() {
         else if (view == 4) {
           return (<ToGate/>)
         }
-        else 
-          return(<CheckInButton/>)
+        else if (view == 5) {
+          return (<Boarding/>)
+        }
+        else if (view == 6) {
+          return (<SeatFinal/>)
+        }
     }
 
     // const items = [a, b, a]
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(5)
+              setView(7)
           }
           else{
-              setView(Math.abs(view-1)%5)
+              setView(Math.abs(view-1)%7)
           }
       }
       else{
-          setView(Math.abs(view+1)%5)
+          setView(Math.abs(view+1)%7)
       }
     }
     return(
@@ -75,8 +81,10 @@ export default function LandingPage() {
 
         <View  style={styles.card}>
             <View style={styles.buttonrow}>
-              <Button title="back" style={styles.btn1} onPress={()=>handleClick("left")} />
-              <Button title="next" style={styles.btn2} onPress={()=>handleClick("right")} />
+           
+        <Button title="back" style={styles.btn1} onPress={()=>handleClick("next")} />
+             
+              <Button title="next" style={styles.btn2} onPress={()=>handleClick("next")} />
             </View>
             <Page style={styles.page}/>
         </View>
@@ -160,7 +168,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     textAlign: 'center',
-
+    color: 'white',
+    backgroundColor: 'rgb(70,145,247)',
   },
   btn2: {
     position: "absolute",
@@ -174,6 +183,7 @@ const styles = StyleSheet.create({
   buttonrow: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: 'center'
+    justifyContent: 'space-around',
+    color: 'black',
   }
 });

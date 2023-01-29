@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: 60,
     borderRadius: 4,
-    backgroundColor: "black",
+    backgroundColor: "rgb(70,145,247)",
   },
   text: {
     marginTop: "-5%",

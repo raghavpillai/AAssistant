@@ -15,11 +15,9 @@ export default function BagConfirmation() {
     <>
       <View style={styles.container}>
         <Text style={styles.text}>
-        `Check-in successful! 
-        Bag ID's
-        12345
-        12345`
+        Check-in successful!
         </Text>
+        <View style={styles.bottomform}><Text style={styles.subtext}>Hi</Text></View>
       </View>
     </>
   );
@@ -29,15 +27,24 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(255, 255, 255, 0)",
     borderRadius: 7,
-    width: "95%",
+    width: "100%",
     height: "30%",
   },
   text: {
     padding: "5%",
     fontSize: 24,
     lineHeight: 25,
-    fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "black",
+    color: "rgb(70,145,247)",
+    textAlign: "center",
   },
+  bottomform: {
+    backgroundColor: 'rgb(70,145,247)',
+    marginLeft: '9%',
+    width: '80%',
+    height: '150%',
+  },
+  subtext: {
+    color: 'white',
+  }
 });
