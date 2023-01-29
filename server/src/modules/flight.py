@@ -30,13 +30,15 @@ class Flight:
             Persistence.update_collection(flight_db, self.flight_number, {key: value})
     
     
-    def __init__(self, flight_number: str, plane_type: str, boarding_time: str, departure_time: str, gate: str) -> None:
+    def __init__(self, flight_number: str, plane_type: str, boarding_time: str, departure_time: str, gate: str, origin: list, destination: list) -> None:
         self.flight_number = flight_number
         self.boarding_time = boarding_time
         self.departure_time = departure_time
         self.gate = gate
         self.status = "N/A"
         self.plane_type = plane_type
+        self.origin = origin
+        self.destination = destination
 
         self.passengers = []
         self.bags = []
@@ -52,6 +54,8 @@ class Flight:
                 "plane_type": self.plane_type,
                 "passengers": self.passengers,
                 "bags": self.bags,
-                "seats": self.seats
+                "seats": self.seats,
+                "origin": self.origin,
+                "destination": self.destination
             }
         )

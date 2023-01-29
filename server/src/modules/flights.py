@@ -1,12 +1,15 @@
 import time
 import re
+import random
 from src.modules.persistence import Persistence, user_db, flight_db, bag_db
 from src.modules.user import User, user_data
 from src.modules.flight import Flight
 from src.modules.securitygates import SecurityGates
 
 ticket_numbers: dict = {
-    "A1B2": "AA 1511"
+    "A1B2": "AA 1511",
+    "A2B2": "AA 1512",
+    "A3B2": "AA 1513"
 }
 
 flight_data: dict = {
@@ -15,6 +18,24 @@ flight_data: dict = {
         "departure_time": 1674985873 + 43200 + 1800,
         "gate": "E31",
         "plane_type": "737-800",
+        "origin": ["DFW", "Dallas"],
+        "destination": ["JFK", "New York"]
+    },
+    "AA 1512": {
+        "boarding_time": 1674985873 + 43200 + 720,
+        "departure_time": 1674985873 + 43200 + 1800 + 720,
+        "gate": "D4",
+        "plane_type": "737-800",
+        "origin": ["DFW", "Dallas"],
+        "destination": ["CUN", "Cancún"]
+    },
+    "AA 1513": {
+        "boarding_time": 1674985873 + 43200 + 720 + 720,
+        "departure_time": 1674985873 + 43200 + 1800 + 720 + 720,
+        "gate": "B7",
+        "plane_type": "737-800",
+        "origin": ["DFW", "Dallas"],
+        "destination": ["LHR", "London"]
     }
 }
 
@@ -67,7 +88,7 @@ class ActionHandler:
             return [False, "invalid user"]
         Persistence.update_collection(user_db, username, {"ticket_number": ticket_number})
         Persistence.update_collection(user_db, username, {"flight_number": flight_from_ticket})
-        if not username not in Persistence.get_collection(flight_db, flight_from_ticket)["passengers"]:
+        if username not in Persistence.get_collection(flight_db, flight_from_ticket)["passengers"]:
             Persistence.update_collection(flight_db, flight_from_ticket, {"passengers": [username]})
         return [True, [Persistence.get_collection(flight_db, flight_from_ticket), ticket_number]]
 
@@ -153,12 +174,13 @@ class ActionHandler:
         Persistence.update_collection(flight_db, flight_number, {"bags": to_add})
         
         for bag in to_add:
-            Persistence.update_collection(bag_db, bag, {"flight": flight_number, "owner": username, "from": "DFW", "to": "LHR"})
+            Persistence.update_collection(bag_db, bag, {"flight": flight_number, "owner": username, "from": flight_data[flight_number].get("origin")[0], "to": flight_data[flight_number].get("destination")[0]})
+
         return [True, to_add]
     
+
     @classmethod
     def get_bags_from_flight(cls, flight_number):
-        print("fdjiijdf")
         return Persistence.get_collection(bag_db, flight_number, "flight")
     
 
@@ -199,9 +221,17 @@ class ActionHandler:
             )
             temp_user.flight_number = data.get("flight_num")
             temp_user.status = "unconfirmed"
-            #Persistence.update_collection(user_db, "user_acc", {"bags": ['aaaa']})
         
-        for i in range(142):
+        blacklist = ["11A", "13C", "17F", "20B", "23A", "27E", "29D", "30F"]
+        seat_arr = Flight.get_flight_seats("737-800")
+        seats = []
+        for row in seat_arr:
+            column = seat_arr[row]
+            for col in column.keys():
+                if f"{row}{col}" not in blacklist:
+                    seats.append(f"{row}{col}")
+        
+        for i in range(148):
             temp_user = User(
                 f"dummy_user_{i}",
                 "dummy_password",
@@ -209,10 +239,33 @@ class ActionHandler:
                 67710+i,
                 f"Dummy {i}"
             )
-            cls.add_flight_seat("AA 1511", temp_user.username, "16B")
-            Persistence.update_collection(user_db, temp_user.username, {"status": "unconfirmed"})
+            cls.add_flight_seat("AA 1511", temp_user.username, seats[i])
+            cls.add_bags("AA 1511", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A1B2")
-            cls.add_bags("AA 1511", temp_user.username, 1)
+
+        for i in range(148):
+            temp_user = User(
+                f"dummy_user_{i}",
+                "dummy_password",
+                "user",
+                67710+i,
+                f"Dummy {i}"
+            )
+            cls.add_flight_seat("AA 1512", temp_user.username, seats[i])
+            cls.add_bags("AA 1512", temp_user.username, random.randint(0, 1))
+            cls.assign_plane_given_ticket(temp_user.username, "A2B2")
+        
+        for i in range(148):
+            temp_user = User(
+                f"dummy_user_{i}",
+                "dummy_password",
+                "user",
+                67710+i,
+                f"Dummy {i}"
+            )
+            cls.add_flight_seat("AA 1513", temp_user.username, seats[i])
+            cls.add_bags("AA 1513", temp_user.username, random.randint(0, 1))
+            cls.assign_plane_given_ticket(temp_user.username, "A3B2")
     
 
     @classmethod
@@ -223,7 +276,9 @@ class ActionHandler:
                 f_data.get("plane_type"),
                 f_data.get("boarding_time"),
                 f_data.get("departure_time"),
-                f_data.get("gate")
+                f_data.get("gate"),
+                f_data.get("origin"),
+                f_data.get("destination")
             )
             #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
     

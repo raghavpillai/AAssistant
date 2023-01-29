@@ -38,7 +38,7 @@ class User(object):
         self.flight_number = ""
         self.seat_number = ""
 
-        self.status = ""
+        self.status = "unconfirmed"
 
         Persistence.update_collection(
             user_db,
