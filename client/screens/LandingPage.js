@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import {ImageBackground, StyleSheet, Text, View, Box, Image, Button, Pressable} from 'react-native';
 
-import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
+import bgimg from '../assets/wp.png'
 import aa from '../assets/aatop.png'
 import logoimg from '../assets/logo.png'
 import chat from '../assets/chat.png'
