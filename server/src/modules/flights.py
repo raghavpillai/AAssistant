@@ -68,7 +68,7 @@ class ActionHandler:
         if username not in Persistence.get_collection(flight_db, flight_from_ticket)["passengers"]:
             Persistence.update_collection(flight_db, flight_from_ticket, {"passengers": [username]})
 
-    
+
     @classmethod
     def get_flight_statuses(cls, flight_number: str) -> list:
         """
