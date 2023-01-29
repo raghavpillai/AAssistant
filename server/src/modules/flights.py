@@ -211,6 +211,7 @@ class ActionHandler:
         """
         Test class method to populate database with temporary users
         """
+        print("Started User Population")
         for name, data in user_data.items():
             temp_user = User(
                 name,
@@ -231,6 +232,7 @@ class ActionHandler:
                 if f"{row}{col}" not in blacklist:
                     seats.append(f"{row}{col}")
         
+        print("User Population - A")
         for i in range(148):
             temp_user = User(
                 f"dummy_user_{i}",
@@ -243,6 +245,7 @@ class ActionHandler:
             cls.add_bags("AA 1511", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A1B2")
 
+        print("User Population - B")
         for i in range(148):
             temp_user = User(
                 f"dummy_user_{i}",
@@ -255,6 +258,7 @@ class ActionHandler:
             cls.add_bags("AA 1512", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A2B2")
         
+        print("User Population - C")
         for i in range(148):
             temp_user = User(
                 f"dummy_user_{i}",
@@ -270,6 +274,7 @@ class ActionHandler:
 
     @classmethod
     def populate_flights(cls):
+        print("Started Flight Population")
         for f_num, f_data in flight_data.items():
             temp_flight = Flight(
                 f_num,
@@ -281,6 +286,7 @@ class ActionHandler:
                 f_data.get("destination")
             )
             #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
+        print("Finished Flight")
     
     @classmethod
     def get_travel_times(cls, username, gate):
