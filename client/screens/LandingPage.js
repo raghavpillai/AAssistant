@@ -30,15 +30,12 @@ export default function LandingPage() {
             return(<BagConfirmation/>)
         }
         else if (view == 2) {
-          return (<ToAirport terminal={"terminal d"}/>)
+          return(<ToSecurity security={"D22"}/>)
         }
         else if (view == 3) {
-          return(<ToSecurity gate={"25"} security={"D22"}/>)
+          return (<ToGate security={"D22"} gate={"25"}/>)
         }
         else if (view == 4) {
-          return (<ToGate terminal={"terminal d"} gate={"25"}/>)
-        }
-        else if (view == 5) {
           return (<Boarding/>)
         }
         else 
@@ -54,15 +51,12 @@ export default function LandingPage() {
           return (<Text>Note down your bag id's</Text>)
         }
         else if (view == 2) {
-          return (<Text>Make your way to the airport</Text>)
+          return (<Text>Make your way to the airport terminal</Text>)
         }
         else if (view == 3) {
-          return (<Text>Make your way to the security</Text>)
-        }
-        else if (view == 4) {
           return (<Text>Make your way to your gate</Text>)
         }
-        else if (view == 5) {
+        else if (view == 4) {
           return (<Text>Wait for your group to be called</Text>)
         }
         else 
@@ -79,8 +73,8 @@ export default function LandingPage() {
           }
       }
       else{
-        if (view == 6) {
-          setView(6)
+        if (view == 5) {
+          setView(5)
         }
         else
           setView(Math.abs(view+1))

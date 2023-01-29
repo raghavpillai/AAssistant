@@ -4,7 +4,7 @@ from pymongo.database import Database
 
 cluster: str = "mongodb+srv://zen:aapass@aassistant.p1lyoq5.mongodb.net/test" # CLUSTER IP
 try:
-    client: MongoClient = MongoClient(cluster)
+    client: MongoClient = MongoClient(cluster, tls=True, tlsAllowInvalidCertificates=True)
     db: Database = client["db"]
     user_db: Collection = db.users
     flight_db: Collection = db.flights
