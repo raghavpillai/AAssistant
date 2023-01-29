@@ -11,12 +11,14 @@ import Widget from '../components/Widget.js'
 import CheckInButton from '../components/CheckInButton';
 import ToAirport from '../components/ToAirport';
 import BagSeat from '../components/BagSeat';
+import BagConfirmation from '../components/BagConfirmation';
+import ToSecurity from '../components/ToSecurity';
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
     const Page = () => {
         if(view == 0){
-            return(<ToAirport />)
+            return(<ToSecurity/>)
         }
         else if(view == 1){
             return(<ToAirport />)
