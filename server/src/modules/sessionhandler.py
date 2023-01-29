@@ -22,6 +22,8 @@ class SessionHandler:
                 return ActionHandler.assign_plane_given_ticket(username, request["ticket_number"])
             case "get_flight_status": # Gets flight status for a given ticket
                 return ActionHandler.get_flight_statuses(request["flight_number"])
+            case "get_bag_db":
+                return ActionHandler.get_bags_from_flight(request["flight_number"])
         
         # Change status (arrived, security, available, boarding)
         # Checkin bags (how many bags to checkin)
@@ -32,8 +34,9 @@ class SessionHandler:
 
     @classmethod
     def initialize(cls):
-        #ActionHandler.populate_users()
         #ActionHandler.populate_flights()
+        #ActionHandler.populate_users()
+        #print(ActionHandler.get_bags_from_flight("AA 1511"))
         #ActionHandler.assign_plane_given_ticket("user_acc", "A1B2")
-        print(ActionHandler.get_travel_times("user_acc"))
-        #pass
+        #print(ActionHandler.get_travel_times("user_acc"))
+        pass

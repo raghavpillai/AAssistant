@@ -8,6 +8,7 @@ try:
     db: Database = client["db"]
     user_db: Collection = db.users
     flight_db: Collection = db.flights
+    bag_db: Collection = db.bags
 except:
     print("Could not connect to MongoDB")
 
@@ -25,11 +26,17 @@ user_dict = {
 
 class Persistence:
     @classmethod
-    def get_collection(cls, collection: Collection, key):
+    def get_collection(cls, collection: Collection, key, override: str=None):
+
+
         if not isinstance(collection, Collection): 
             print("Not a valid collection")
             return 0
-        return collection.find_one({"name": key})
+        return (
+            list(collection.find({override: key}))
+            if override is not None
+            else collection.find_one({"name": key})
+        )
         
 
     @classmethod
