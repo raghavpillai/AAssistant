@@ -19,7 +19,7 @@ import BagConfirmation from "./BagConfirmation";
 import { RNSVGSymbol } from "react-native-svg";
 import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
 
-import { userInputs, loggedState, ticketNum, bagIds, securityGate, timeDelay } from "../store/States";
+import { userInputs, loggedState, ticketNum, bagIds, securityGate, timeDelay, seatNum } from "../store/States";
 
 let seatList = []
 const data1 = [
@@ -56,7 +56,8 @@ const BagSeat = ({func}) => {
   const [sec, setSec] = useRecoilState(securityGate)
   const [delay, setDelay] = useRecoilState(timeDelay)
 
-  data = ticket[1][0].seats  
+
+  let data = ticket[1][0].seats  
   console.log(data)
   let k = 1
   for (let i = 3; i < 30; i++) {
