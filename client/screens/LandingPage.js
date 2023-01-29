@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import {ImageBackground, StyleSheet, Text, View, Box, Image, Button} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View, Box, Image, Button, Pressable} from 'react-native';
 
 import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
 import aa from '../assets/aatop.png'
@@ -8,21 +8,49 @@ import logoimg from '../assets/logo.png'
 import chat from '../assets/chat.png'
 import mail from '../assets/mail.png'
 import Widget from '../components/Widget.js'
+import CheckInButton from '../components/CheckInButton';
+import ToAirport from '../components/ToAirport';
+import BagSeat from '../components/BagSeat';
+import BagConfirmation from '../components/BagConfirmation';
+import ToSecurity from '../components/ToSecurity';
+import ToGate from '../components/ToGate';
+import Boarding from '../components/Boarding';
+import SeatFinal from '../components/SeatFinal'
+
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
+    const Page = () => {
+        if(view == 0){
+            return(<CheckInButton func={setView}/>)
+        }
+        else if (view == 1){
+            return(<BagSeat func={setView}/>)
+        }
+        else if (view == 2){
+            return(<BagConfirmation/>)
+        }
+        else if (view == 3) {
+          return (<ToAirport/>)
+        }
+        else if (view == 4) {
+          return (<ToGate/>)
+        }
+        else 
+          return(<ToSecurity/>)
+    }
 
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(4)
+              setView(7)
           }
           else{
-              setView(Math.abs(view-1)%5)
+              setView(Math.abs(view-1)%6)
           }
       }
       else{
-          setView(Math.abs(view+1)%5)
+          setView(Math.abs(view+1)%6)
       }
     }
     return(
@@ -42,16 +70,19 @@ export default function LandingPage() {
       <View style={styles.task}>
         <View style={[styles.spacersm, styles.row]}>
           <Text style={[styles.light, styles.bold]}>Task</Text>
-          <Text style={[styles.bold, styles.major]}>Check into the airport in 48h</Text>
+          <Text style={[styles.bold, styles.major]}>Check-in to your flight in 48 hrs.</Text>
         </View>
       </View>
 
-      <View style={styles.card}>
-        <Button title="left" onPress={()=>handleClick("left")} />
-        <Text>{view}</Text>
-        <Button title="right" onPress={()=>handleClick("right")} />
-      </View>
-
+        <View style={styles.card}>
+            <View style={styles.buttonrow}>
+           
+        <Button title="back" style={styles.btn1} onPress={()=>handleClick("next")} />
+             
+              <Button title="next" style={styles.btn2} onPress={()=>handleClick("next")} />
+            </View>
+            <Page style={styles.page}/>
+        </View>
     </ImageBackground>
     )
     
@@ -99,7 +130,8 @@ const styles = StyleSheet.create({
     height: '40%',
     width: '90%',
     marginLeft: '5%',
-    marginTop: '5%'
+    marginTop: '5%',
+    position: 'relative',
   },
   task: {
     marginTop: '-192%',
@@ -124,8 +156,29 @@ const styles = StyleSheet.create({
     color: "#bbbcc0"
   },
   major: {
-    fontSize: '20px'
+    fontSize: '20px',
   },
-
-  
+  btn1: {
+    position: "absolute",
+    flex: 1,
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'rgb(70,145,247)',
+  },
+  btn2: {
+    position: "absolute",
+    flex: 1,
+    justifyContent: 'center',  
+    textAlign: 'center'  
+  },
+  page: {
+    flex:2,
+  },
+  buttonrow: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: 'space-around',
+    color: 'black',
+  }
 });

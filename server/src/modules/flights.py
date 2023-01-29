@@ -1,8 +1,10 @@
-from collections import defaultdict
+import time
 from src.modules.persistence import Persistence, user_db, flight_db
+from src.modules.user import User, user_data
+from src.modules.flight import Flight
 
 flight_data = {
-    "AA_1511": {
+    "AA 1511": {
         "boarding_time": "12:00",
         "departure_time": "15:00",
         "gate": "E31",
@@ -10,62 +12,38 @@ flight_data = {
     }
 }
 
-class Flight:
-    __initialized = False
 
-    @staticmethod
-    def get_flight_seats(plane_type: str) -> dict:
-        if plane_type == "737-800":
-            seats = defaultdict(list)
-            for row in range(3, 7):
-                our_row = {}
-                for column in ['A','B','E','F']:
-                    our_row[column] = [False, 50]
-                seats[str(row)] = our_row
-            for row in range(7, 31):
-                our_row = {}
-                for column in ['A','B','C','D','E','F']:
-                    if row <= 15:
-                        our_row[column] = [False, 10]
-                    else:
-                        our_row[column] = [False, 0]
-                seats[str(row)] = our_row
-            return seats
-
-    def __setattr__(self, key, value):
-        super(Flight, self).__setattr__(key, value)
-        if self.__initialized == True and key != "_User__initialized":
-            Persistence.update_collection(flight_db, self.flight_number, {key: value})
+class ActionHandler:
+    @classmethod
+    def change_user_progress(cls, username, progress):
+        Persistence.update_collection(user_db, username, {"status": progress})
+        return [True, Persistence.get_collection(user_db, username)]
     
-    def __init__(self, flight_number: str, plane_type: str, boarding_time: str, departure_time: str, gate: str) -> None:
-        self.flight_number = flight_number
-        self.boarding_time = boarding_time
-        self.departure_time = departure_time
-        self.gate = gate
-        self.current_boarding_group = None
-        self.status = "N/A"
-        self.plane_type = plane_type
 
-        self.passengers = []
-        self.bags = []
-        self.seats = dict(self.get_flight_seats(self.plane_type))
-        Persistence.update_collection(
-            flight_db,
-            self.flight_number,
-            {
-                "boarding_time": self.boarding_time,
-                "departure_time": self.departure_time,
-                "gate": self.gate,
-                "current_boarding_group": self.current_boarding_group,
-                "status": self.status,
-                "plane_type": self.plane_type,
-                "passengers": self.passengers,
-                "bags": self.bags,
-                "seats": self.seats
-            }
-        )
+    @classmethod
+    def login_request(cls, username, password):
+        db_search_results = Persistence.get_collection(user_db, username)
+        if not db_search_results:
+            return [False, "invalid user"]
+        if password != db_search_results.get("password"):
+            return [False, "invalid password"]
+        
+        return [True, db_search_results]
 
-class Flights:
+
+    @classmethod
+    def populate_users(cls):
+        for name, data in user_data.items():
+            temp_user = User(
+                name,
+                data.get("password"),
+                data.get("level"),
+                int(data.get("id")),
+            )
+            temp_user.flight_number = data.get("flight_num")
+            temp_user.status = "unconfirmed"
+            #Persistence.update_collection(user_db, "user_acc", {"bags": ['aaaa']})
+
 
     @classmethod
     def get_passenger_statuses(cls, flight_number):
@@ -91,7 +69,7 @@ class Flights:
             "boarded": boarded
         }]
         
-
+    
     @classmethod
     def add_flight_seat(cls, flight_number, username, flight_seat):
         flight_data = Persistence.get_collection(flight_db, flight_number)
@@ -120,20 +98,23 @@ class Flights:
     
 
     @classmethod
-    def add_bags(cls, flight_number, username, bags):
+    def add_bags(cls, flight_number, username, bag_count):
         if not Persistence.get_collection(flight_db, flight_number): return [False, "Flight number invalid"]
-        Persistence.update_collection(user_db, username, {"bags": bags})
-        Persistence.update_collection(flight_db, flight_number, {"bags": bags})
-        return [True, bags]
+        to_add = [int(time.time()) - 1674952000 + i for i in range(bag_count)]
+
+        Persistence.update_collection(user_db, username, {"bags": to_add})
+        Persistence.update_collection(flight_db, flight_number, {"bags": to_add})
+        return [True, to_add]
     
 
     @classmethod
-    def get_flight_status(cls, flight_number):
-        return (
-            [True, Persistence.get_collection(flight_db, flight_number)]
-            if Persistence.get_collection(flight_db, flight_number)
-            else [False, "Flight number invalid"]
-        )
+    def get_user_status(cls, username):
+        ret = {"user": Persistence.get_collection(user_db, username), "flight": None}
+        flight_num = ret.get("user").get("flight_number")
+        if ret["user"].get("flight_number") is not None:
+            ret["flight"] = Persistence.get_collection(flight_db, flight_num)
+
+        return [True, ret]
 
 
     @classmethod
