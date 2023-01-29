@@ -4,7 +4,7 @@ import { NativeBaseProvider, extendTheme, Text, Box, View } from "native-base";
 import { StyleSheet } from "react-native";
 import Login from "./screens/Login.js";
 import LandingPage from "./screens/LandingPage.js";
-
+import FindTrip from "./screens/FindTrip.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -18,6 +18,7 @@ export default function App() {
         <Tab.Navigator screenOptions={{ headerShown: false }}>
           <Tab.Screen name="Home" component={Login} />
           <Tab.Screen name="Status" component={LandingPage} />
+          <Tab.Screen name="Test" component={FindTrip}/>
         </Tab.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

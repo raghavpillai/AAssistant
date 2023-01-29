@@ -21,8 +21,6 @@ import t from '../assets/test.png'
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
-    const [viewTask, setViewTask] = useState(0)
-    const [gatecoords, setGate] = useState({});
     
     const Page = () => {
         if(view == 0){
@@ -52,44 +50,29 @@ export default function LandingPage() {
     }
 
     const Task = () => {
-        if (viewTask == 0) {
+        if (view == 0) {
           return (<Text>Please check in within 48 hours.</Text>)
         }
-        else if (viewTask == 1) {
+        else if (view == 1) {
           return (<Text>Hello</Text>)
         }
-        else if (viewTask == 2) {
-          return
+        else if (view == 2) {
+          return (<Text></Text>)
         }
     }
 
-
-
-    const handleClickTask = (side) => {
-      if(side === "left"){
-          if(viewTask == 0){
-              setViewTask(2)
-          }
-          else{
-              setViewTask(Math.abs(viewTask-1)%2)
-          }
-      }
-      else{
-          setViewTask(Math.abs(viewTask+1)%2)
-      }
-    }
 
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(6)
+              setView(7)
           }
           else{
-              setView(Math.abs(view-1)%7)
+              setView(Math.abs(view-1)%8)
           }
       }
       else{
-          setView(Math.abs(view+1)%7)
+          setView(Math.abs(view+1)%8)
       }
     }
     return(
