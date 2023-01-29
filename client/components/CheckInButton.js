@@ -2,12 +2,14 @@ import {StyleSheet, ImageBackground, Image, Text, Button, View} from 'react-nati
 import { Center, Heading, Box, VStack, FormControl,  Input } from "native-base";
 import * as Progress from 'react-native-progress';
 import { Pressable } from 'react-native';
+import { useEffect } from 'react';
 
-export default function CheckInButton(){
+export default function CheckInButton({func}){
+
     return (
       <>
         <View style={styles.container}>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={() => func(2)}>
       <Text style={styles.text}>Check In</Text>
     </Pressable>
     
