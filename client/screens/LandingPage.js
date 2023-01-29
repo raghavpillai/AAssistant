@@ -175,8 +175,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   spacersm: {
-      marginHorizontal: '7%',
-      marginVeritcal: '10%'
+      marginHorizontal: '8%',
+      marginTop: '7%'
   },
   light: {
     color: "#bbbcc0"
