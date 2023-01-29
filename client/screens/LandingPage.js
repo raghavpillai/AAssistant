@@ -88,7 +88,7 @@ export default function LandingPage() {
           return (<Text>Note down your bag IDs</Text>)
         }
         else if (view == 2) {
-          return (<Text>Make your way to the airport terminal by {date.getHours()}:{date.getMinutes()}</Text>)
+          return (<Text>Depart for the airport terminal by {date.getHours()}:{date.getMinutes()} at the latest</Text>)
         }
         else if (view == 3) {
           return (<Text>Make your way to gate {ticket[1][0].gate}</Text>)

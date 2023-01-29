@@ -19,8 +19,6 @@ export default function FindTrip({ navigation }) {
   const [ticket, setTicket] = useRecoilState(ticketNum)
 
   const handleClick = () => {
-    console.log(user)
-    console.log(ticket)
     fetch('http://127.0.0.1:5000/api/post', {
       method: "POST",
       headers: {
