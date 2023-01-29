@@ -61,7 +61,7 @@ export default function LandingPage() {
           return (<Text>Choose a seat and bag amount</Text>)
         }
         else if (view == 1) {
-          return (<Text>Note down your bag ids</Text>)
+          return (<Text>Note down your bag IDs</Text>)
         }
         else if (view == 2) {
           return (<Text>Make your way to the airport terminal</Text>)
@@ -198,6 +198,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   spacersm: {
+      justifyContent: 'center',
+      alignItems: 'center',
       marginHorizontal: '8%',
       marginTop: '7%'
   },
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
     color: "#bbbcc0"
   },
   major: {
-    fontSize: '20px',
+    fontSize: '16px',
     justifyContent: "center"
   },
   btn1: {

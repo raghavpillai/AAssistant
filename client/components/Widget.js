@@ -26,7 +26,7 @@ export default function Widget({departure, flightNum, gate}) {
           <Text style={[styles.item]}>London</Text>
         </View>
         <View>
-            <Progress.Bar progress={1} width={315} color={'rgba(220,220,220, 1)'} style={[styles.bar, styles.spacersm]}/>
+            <Progress.Bar progress={1} width={315} color={'rgba(230,230,230, 1)'} style={[styles.bar, styles.spacersm]}/>
         </View>
         <View style={[styles.row, styles.spacersm]}>
           <Text style={[styles.item, styles.light, styles.bold]}>
