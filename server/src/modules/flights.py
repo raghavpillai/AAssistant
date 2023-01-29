@@ -79,10 +79,15 @@ class ActionHandler:
         flight_db_data = Persistence.get_collection(flight_db, flight_number)
         if not flight_db_data: return [False, "Flight number invalid"]
 
-        checked_in = security = concourse = boarded = 0
-
-        for passenger in flight_data.get(flight_number).get("passengers"):
-            match passenger.status:
+        checked_in = security = concourse = boarded = unconfirmed = 0
+        print(flight_number)
+        print(flight_db_data.get(flight_number))
+        print(flight_db_data.get(""))
+        for passenger in flight_db_data.get("passengers"):
+            user_coll = Persistence.get_collection(user_db, passenger)
+            match user_coll.get("status"):
+                case "unconfirmed": 
+                    unconfirmed += 1
                 case "checked_in":
                     checked_in += 1
                 case "security":
@@ -93,6 +98,7 @@ class ActionHandler:
                     boarded += 1
         
         return [True, {
+            "unconfirmed": unconfirmed,
             "checked_in": checked_in,
             "security": security,
             "concourse": concourse, 
