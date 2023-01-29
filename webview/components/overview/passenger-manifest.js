@@ -18,6 +18,8 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { flightNumberAtom } from '../atoms';
 
 const const_orders = [
   {
@@ -39,52 +41,12 @@ const const_orders = [
     },
     createdAt: 1555016400000,
     status: 'boarded'
-  },
-  /*
-    {
-      id: uuid(),
-      ref: 'CDD1047',
-      amount: 10.99,
-      customer: {
-        name: 'Alexa Richardson'
-      },
-      createdAt: 1554930000000,
-      status: 'refunded'
-    },
-    {
-      id: uuid(),
-      ref: 'CDD1046',
-      amount: 96.43,
-      customer: {
-        name: 'Anje Keizer'
-      },
-      createdAt: 1554757200000,
-      status: 'pending'
-    },
-    {
-      id: uuid(),
-      ref: 'CDD1045',
-      amount: 32.54,
-      customer: {
-        name: 'Clarke Gillebert'
-      },
-      createdAt: 1554670800000,
-      status: 'delivered'
-    },
-    {
-      id: uuid(),
-      ref: 'CDD1044',
-      amount: 16.76,
-      customer: {
-        name: 'Adam Denisov'
-      },
-      createdAt: 1554670800000,
-      status: 'delivered'
-    }
-  */
+  }
 ];
 
 export const PassengerManifest = (props) => {
+  const flightNumber = useRecoilValue(flightNumberAtom);
+
   useEffect(() => {
     console.log("here");
     const url = 'http://127.0.0.1:5000/api/post';
@@ -92,22 +54,47 @@ export const PassengerManifest = (props) => {
       "username": "admin_acc",
       "query": {
         "type": "get_flight_status",
-        "flight_number": "AA 1511"
+        "flight_number": flightNumber
       }
     };
     const headers = {
       'Content-Type': 'application/json'
     };
-    fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(body)}).then((data) => {
-      console.log(data.json());
-      // setOrders(data);
-    }).catch((err) => {
-      console.log(err);
-    });
-    console.log("here2");
-  }, []);
+    fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(body) })
+      .then(data => data.json())
+      .then((data) => {
+        // console.log(data[1]["flight"]["passengers"]);
 
-  const [orders, setOrders] = useState([]);
+        let database_passengers = []
+        data[1]["flight"]["passengers"].forEach((passenger) => {
+          // console.log(passenger);
+          const passenger_body = {
+            "username": passenger,
+            "query": {
+              "type": "status"
+            }
+          };
+          fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(passenger_body) })
+          .then(response => response.json())
+          .then((response) => {
+            database_passengers.push({
+              id: response[1]["user"]["id"],
+              seat_number: response[1]["user"]["seat_number"],
+              bag_count: response[1]["user"]["bags"].length,
+              customer: {name: response[1]["user"]["name"]},
+              status: response[1]["user"]["status"]
+            });
+            setPassengers(database_passengers.slice());
+            console.log(response);
+          });
+        });
+      }).catch((err) => {
+        console.log(err);
+      });
+    console.log("here2");
+  }, [flightNumber]);
+
+  const [passengers, setPassengers] = useState(const_orders);
 
   return (
     <Card {...props}>
@@ -135,13 +122,13 @@ export const PassengerManifest = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => (
+              {passengers.map((order) => (
                 <TableRow
                   hover
                   key={order.id}
                 >
                   <TableCell>
-                    {order.id.substring(0, 6)}
+                    {order.id}
                   </TableCell>
                   <TableCell>
                     {order.customer.name}
@@ -154,8 +141,8 @@ export const PassengerManifest = (props) => {
                   </TableCell>
                   <TableCell>
                     <SeverityPill
-                      color={(order.status === 'boarded' && 'success')
-                        || (order.status === 'booked' && 'error')
+                      color={( (order.status === 'concourse' || order.status === 'boarded') && 'success')
+                        || (order.status === 'unconfirmed' && 'error')
                         || 'warning'}
                     >
                       {order.status}

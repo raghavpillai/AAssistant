@@ -17,6 +17,8 @@ import { Logo } from './logo';
 import { NavItem } from './nav-item';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { flightNumberAtom } from './atoms';
 
 const items = [
   {
@@ -68,7 +70,7 @@ export const DashboardSidebar = (props) => {
     defaultMatches: true,
     noSsr: false
   });
-  const [age, setAge] = useState('AA 1511');
+  const [age, setAge] = useRecoilState(flightNumberAtom);;
 
   useEffect(
     () => {

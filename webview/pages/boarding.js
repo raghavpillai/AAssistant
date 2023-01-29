@@ -7,17 +7,45 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
+import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
+import { flightNumberAtom } from '../components/atoms';
 
 function Example() {
   // And now you can use hooks
   // But only inside your functional component's
   // body
   const [status, setStatus] = useState('Unconfirmed');
+  const flightNumber = useRecoilValue(flightNumberAtom);
+
+  useEffect(() => {
+    // console.log("here");
+    const url = 'http://127.0.0.1:5000/api/post';
+    const body = {
+      "username": "admin_acc",
+      "query": {
+        "type": "change_flight_progress",
+        "flight_number": flightNumber,
+        "status": status
+      }
+    };
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(body) })
+      .then(data => data.json())
+      .then((data) => {
+        console.log(data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    console.log("here2");
+  }, [status]);
 
   return (
     <Box sx={{ pt: 3 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Baggage Portal</InputLabel>
+        <InputLabel id="demo-simple-select-label">Boarding Portal</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
