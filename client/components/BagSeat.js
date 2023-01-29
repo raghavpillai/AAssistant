@@ -36,17 +36,17 @@ const data = [
 const data1 = [
   {
     label: "0",
-    value: "1",
-  },
-  { label: "1", value: "2" },
-  { label: "2", value: "3" },
-  { label: "3", value: "4" },
-  { label: "4", value: "5" },
-  { label: "5", value: "6" },
-  { label: "6", value: "6" },
-  { label: "7", value: "6" },
-  { label: "8", value: "6" },
-  { label: "9", value: "6" },
+    value1: "1",
+},
+  { label: "1", value1: "2" },
+  { label: "2", value1: "3" },
+  { label: "3", value1: "4" },
+  { label: "4", value1: "5" },
+  { label: "5", value1: "6" },
+  { label: "6", value1: "7" },
+  { label: "7", value1: "8" },
+  { label: "8", value1: "9" },
+  { label: "9", value1: "10" },
 
 ];
 
@@ -89,7 +89,7 @@ const BagSeat = ({func}) => {
           console.log(res[1])
         setId(res[1])
     })
-    func(2)
+    func(1)
   }
 
   const renderLabel = () => {
@@ -149,7 +149,7 @@ const BagSeat = ({func}) => {
         search
         maxHeight={300}
         labelField="label"
-        valueField="value"
+        valueField="value1"
         placeholder={!isFocus1 ? "Select item" : "How many bags do you have?"}
         searchPlaceholder="Search..."
         value={value1}

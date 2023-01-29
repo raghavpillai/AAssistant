@@ -127,13 +127,14 @@ class SecurityGates:
 
 
     @classmethod
-    def get_departure_info(cls, boarding_time: int) -> list:
+    def get_departure_info(cls, boarding_time: int, gate: str) -> list:
         """
         Function to get departure info
         @param departure_time[int]: Boarding time of flight, unix time in seconds
         """
         travel_time_to_checkpoint = SecurityGates.get_travel_time([30.624804, -96.331321])/60 # Convert to mins from seconds
-        checkpoint_to_gate_time = SecurityGates.get_time("E9", boarding_time)[1]
+        routed_gates = SecurityGates.get_time(gate, boarding_time)
+        checkpoint_to_gate_time = routed_gates[1]
         total_time_to_gate = travel_time_to_checkpoint + checkpoint_to_gate_time # Time in mins
         time_to_leave = boarding_time - (total_time_to_gate*60)
 
@@ -141,7 +142,8 @@ class SecurityGates:
             "travel_time_to_checkpoint": travel_time_to_checkpoint,
             "checkpoint_to_gate_time": checkpoint_to_gate_time,
             "total_time_to_gate": total_time_to_gate,
-            "time_to_leave": time_to_leave # Unix time in seconds
+            "time_to_leave": time_to_leave, # Unix time in seconds
+            "routed_gates": routed_gates
         }]
 
 

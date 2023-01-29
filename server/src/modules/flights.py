@@ -1,5 +1,6 @@
 import time
-from src.modules.persistence import Persistence, user_db, flight_db
+import re
+from src.modules.persistence import Persistence, user_db, flight_db, bag_db
 from src.modules.user import User, user_data
 from src.modules.flight import Flight
 from src.modules.securitygates import SecurityGates
@@ -66,10 +67,10 @@ class ActionHandler:
             return [False, "invalid user"]
         Persistence.update_collection(user_db, username, {"ticket_number": ticket_number})
         Persistence.update_collection(user_db, username, {"flight_number": flight_from_ticket})
-        if username not in Persistence.get_collection(flight_db, flight_from_ticket)["passengers"]:
+        if not username not in Persistence.get_collection(flight_db, flight_from_ticket)["passengers"]:
             Persistence.update_collection(flight_db, flight_from_ticket, {"passengers": [username]})
 
-
+    
     @classmethod
     def get_flight_statuses(cls, flight_number: str) -> list:
         """
@@ -81,9 +82,6 @@ class ActionHandler:
         if not flight_db_data: return [False, "Flight number invalid"]
 
         checked_in = security = concourse = boarded = unconfirmed = 0
-        print(flight_number)
-        print(flight_db_data.get(flight_number))
-        print(flight_db_data.get(""))
         for passenger in flight_db_data.get("passengers"):
             user_coll = Persistence.get_collection(user_db, passenger)
             match user_coll.get("status"):
@@ -114,13 +112,13 @@ class ActionHandler:
         Function to add user to flight seat, replacing old seat if needed
         @param flight_number[str]: Flight number to interact with
         @param username[str]: User to mutate around
-        @param flight_seat[str]: Flight seat to change to (in format of E1,E11, etc)
+        @param flight_seat[str]: Flight seat to change to (in format of 1A,16B, etc)
         @return[str]: Returns list with format [response validity, new flight seat]
         """
         flight_db_data: dict = Persistence.get_collection(flight_db, flight_number)
         if not flight_db_data: return [False, "Flight number invalid"]
-        row = flight_seat[0]
-        column = flight_seat[1:]
+        row = "".join(filter(str.isdigit, flight_seat)).strip()
+        column = ("".join(re.split("[^a-zA-Z]*", flight_seat))).strip()
         seats = flight_db_data.get("seats")
         user_data = Persistence.get_collection(user_db, username)
         if user_data.get("seat_number") != "":
@@ -132,6 +130,9 @@ class ActionHandler:
 
         Persistence.update_collection(flight_db, flight_number, {"seats": seats})
         Persistence.update_collection(user_db, username, {"seat_number": flight_seat})
+        if username not in Persistence.get_collection(flight_db, flight_number)["passengers"]:
+            Persistence.update_collection(flight_db, flight_number, {"passengers": [username]})
+
         return [True, flight_seat]
     
 
@@ -149,7 +150,15 @@ class ActionHandler:
 
         Persistence.update_collection(user_db, username, {"bags": to_add})
         Persistence.update_collection(flight_db, flight_number, {"bags": to_add})
+        
+        for bag in to_add:
+            Persistence.update_collection(bag_db, bag, {"flight": flight_number, "owner": username, "from": "DFW", "to": "LHR"})
         return [True, to_add]
+    
+    @classmethod
+    def get_bags_from_flight(cls, flight_number):
+        print("fdjiijdf")
+        return Persistence.get_collection(bag_db, flight_number, "flight")
     
 
     @classmethod
@@ -190,6 +199,19 @@ class ActionHandler:
             temp_user.flight_number = data.get("flight_num")
             temp_user.status = "unconfirmed"
             #Persistence.update_collection(user_db, "user_acc", {"bags": ['aaaa']})
+        
+        for i in range(142):
+            temp_user = User(
+                f"dummy_user_{i}",
+                "dummy_password",
+                "user",
+                67710+i,
+                f"Dummy {i}"
+            )
+            cls.add_flight_seat("AA 1511", temp_user.username, "16B")
+            Persistence.update_collection(user_db, temp_user.username, {"status": "unconfirmed"})
+            cls.assign_plane_given_ticket(temp_user.username, "A1B2")
+            cls.add_bags("AA 1511", temp_user.username, 1)
     
 
     @classmethod
@@ -205,7 +227,7 @@ class ActionHandler:
             #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
     
     @classmethod
-    def get_travel_times(cls, username):
+    def get_travel_times(cls, username, gate):
         db_search_results = Persistence.get_collection(user_db, username)
         if not db_search_results:
             return [False, "invalid user"]
@@ -215,5 +237,5 @@ class ActionHandler:
         flight_db_search = Persistence.get_collection(flight_db, flight_number)
         boarding_time = flight_db_search.get("boarding_time")
 
-        return SecurityGates.get_departure_info(boarding_time)
+        return SecurityGates.get_departure_info(boarding_time, gate)
         
