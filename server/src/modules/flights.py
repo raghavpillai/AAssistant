@@ -227,7 +227,7 @@ class ActionHandler:
             #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
     
     @classmethod
-    def get_travel_times(cls, username):
+    def get_travel_times(cls, username, gate):
         db_search_results = Persistence.get_collection(user_db, username)
         if not db_search_results:
             return [False, "invalid user"]
@@ -237,5 +237,5 @@ class ActionHandler:
         flight_db_search = Persistence.get_collection(flight_db, flight_number)
         boarding_time = flight_db_search.get("boarding_time")
 
-        return SecurityGates.get_departure_info(boarding_time)
+        return SecurityGates.get_departure_info(boarding_time, gate)
         
