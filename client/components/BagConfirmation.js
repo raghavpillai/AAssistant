@@ -21,8 +21,8 @@ export default function BagConfirmation() {
         <Text style={styles.text}>
         Check-in successful!
         </Text>
-        <View style={styles.bottomform}>
-          <Text>All Bags</Text>
+        <View style={styles.cc}>
+          <Text style={styles.txt}>Bag IDs</Text>
           {ids && ids.map((item, key) => {
             return (
               <Text key={key} style={styles.subtext}>{item}</Text>
@@ -49,11 +49,12 @@ const styles = StyleSheet.create({
     color: "rgb(70,145,247)",
     textAlign: "center",
   },
-  bottomform: {
+  cc: {
     marginLeft: '9%',
     width: '80%',
     height: '150%',
     display: 'flex',
+    borderRadius:'19',
   },
   subtext: {
     color: 'black',
@@ -65,6 +66,12 @@ const styles = StyleSheet.create({
     height: "15%",
     justifyContent: 'center',
     marginTop: '2.5%',
-    borderRadius: 7,
+    borderRadius: '15',
+    color: 'white',
+  },
+  txt: {
+    textAlign: 'center',
+    marginBottom: '5%',
+    fontSize: 24,
   }
 });
