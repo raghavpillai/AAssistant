@@ -1,11 +1,8 @@
 from collections import defaultdict
-import requests
-import dateutil.parser
-from datetime import timedelta
-import random
+from src.modules.persistence import Persistence, user_db, flight_db
 
 flight_data = {
-    "AA 1511": {
+    "AA_1511": {
         "boarding_time": "12:00",
         "departure_time": "15:00",
         "gate": "E31",
@@ -14,6 +11,31 @@ flight_data = {
 }
 
 class Flight:
+    __initialized = False
+
+    @staticmethod
+    def get_flight_seats(plane_type: str) -> dict:
+        if plane_type == "737-800":
+            seats = defaultdict(list)
+            for row in range(3, 7):
+                our_row = {}
+                for column in ['A','B','E','F']:
+                    our_row[column] = [False, 50]
+                seats[str(row)] = our_row
+            for row in range(7, 31):
+                our_row = {}
+                for column in ['A','B','C','D','E','F']:
+                    if row <= 15:
+                        our_row[column] = [False, 10]
+                    else:
+                        our_row[column] = [False, 0]
+                seats[str(row)] = our_row
+            return seats
+
+    def __setattr__(self, key, value):
+        super(Flight, self).__setattr__(key, value)
+        if self.__initialized == True and key != "_User__initialized":
+            Persistence.update_collection(flight_db, self.flight_number, {key: value})
     
     def __init__(self, flight_number: str, plane_type: str, boarding_time: str, departure_time: str, gate: str) -> None:
         self.flight_number = flight_number
@@ -26,14 +48,28 @@ class Flight:
 
         self.passengers = []
         self.bags = []
-        self.seats = {}
+        self.seats = dict(self.get_flight_seats(self.plane_type))
+        Persistence.update_collection(
+            flight_db,
+            self.flight_number,
+            {
+                "boarding_time": self.boarding_time,
+                "departure_time": self.departure_time,
+                "gate": self.gate,
+                "current_boarding_group": self.current_boarding_group,
+                "status": self.status,
+                "plane_type": self.plane_type,
+                "passengers": self.passengers,
+                "bags": self.bags,
+                "seats": self.seats
+            }
+        )
 
 class Flights:
-    flights = defaultdict(lambda: "Unknown Flight")
 
     @classmethod
     def get_passenger_statuses(cls, flight_number):
-        if flight_number not in cls.flights: return [False, "Flight number invalid"]
+        if not Persistence.get_collection(flight_db, flight_number): return [False, "Flight number invalid"]
 
         checked_in = security = concourse = boarded = 0
 
@@ -57,89 +93,64 @@ class Flights:
         
 
     @classmethod
-    def add_flight_seat(cls, flight_number, passenger_object, flight_seat):
-        if flight_number not in cls.flights: return [False, "Flight number invalid"]
+    def add_flight_seat(cls, flight_number, username, flight_seat):
+        flight_data = Persistence.get_collection(flight_db, flight_number)
+        if not flight_data: return [False, "Flight number invalid"]
         row = flight_seat[0]
         column = flight_seat[1:]
-        cls.flight.seats[row][column] = [True, cls.flight.seats[row][column][1]]
-        passenger_object.seat_number = flight_seat
+        seats = flight_data.get("seats")
+        user_data = Persistence.get_collection(user_db, username)
+        if user_data.get("seat_number") != "":
+            old_row = user_data.get("seat_number")[0]
+            old_column = user_data.get("seat_number")[1:]
+            seats[old_row][old_column] = [False, seats[old_row][old_column][1]]
+        
+        seats[row][column] = [True, seats[row][column][1]]
+
+        Persistence.update_collection(flight_db, flight_number, {"seats": seats})
+        Persistence.update_collection(user_db, username, {"seat_number": flight_seat})
         return [True, flight_seat]
 
+
     @classmethod
-    def add_to_flight(cls, flight_number, passenger_object):
-        if flight_number not in cls.flights: return [False, "Flight number invalid"]
-        flight_data.get(flight_number).get("passengers").append(passenger_object)
-        return [True, passenger_object]
+    def add_to_flight(cls, flight_number, username):
+        if not Persistence.get_collection(flight_db, flight_number): return [False, "Flight number invalid"]
+        flight_data.get(flight_number).get("passengers").append(username)
+        return [True, username]
     
+
     @classmethod
-    def add_bags(cls, flight_number, passenger_object, bags):
-        if flight_number not in cls.flights: return [False, "Flight number invalid"]
-        for bag in bags:
-            flight_data.get(flight_number).get("bags").append(bag)
-            return [True, bags]
+    def add_bags(cls, flight_number, username, bags):
+        if not Persistence.get_collection(flight_db, flight_number): return [False, "Flight number invalid"]
+        Persistence.update_collection(user_db, username, {"bags": bags})
+        Persistence.update_collection(flight_db, flight_number, {"bags": bags})
+        return [True, bags]
+    
+
     @classmethod
     def get_flight_status(cls, flight_number):
-        if flight_number not in cls.flights: return [False, "Flight number invalid"]
-        return [True, cls.flights.get(flight_number)]
+        return (
+            [True, Persistence.get_collection(flight_db, flight_number)]
+            if Persistence.get_collection(flight_db, flight_number)
+            else [False, "Flight number invalid"]
+        )
+
 
     @classmethod
     def change_flight_status(cls, flight_number, status_to_change_to):
-        if flight_number not in cls.flights: return [False, "Flight number invalid"]
-        cls.flights["flight_number"]["status"] = status_to_change_to
-        return [True, cls.flights.get(flight_number)]
-
-    @classmethod
-    def populate_seats(cls):
-        for flight in cls.flights.values():
-            if flight.plane_type == "737-800":
-                seats = defaultdict(list)
-                for row in range(3, 7):
-                    our_row = {}
-                    for column in ['A','B','E','F']:
-                        our_row[column] = [False, 50]
-                    seats[row] = our_row
-                for row in range(7, 31):
-                    our_row = {}
-                    for column in ['A','B','C','D','E','F']:
-                        if row <= 15:
-                            our_row[column] = [False, 10]
-                        else:
-                            our_row[column] = [False, 0]
-                    seats[row] = our_row
-                flight.seats = seats
+        if not Persistence.get_collection(flight_db, flight_number): return [False, "Flight number invalid"]
+        Persistence.update_collection(flight_db, flight_number, {"status": status_to_change_to})
+        return [True, Persistence.get_collection(flight_db, flight_number)]
             
     
     @classmethod
     def populate_flights(cls):
-        try:
-            r = requests.get("http://localhost:4000/flights", params={"date": "2023-01-29", "origin": "DFW"})
-        except:
-            cls.populate_flights_fallback()
-            return
-        data = r.json()
-        
-        for f_data in data:
-            f_num = "AA" + f_data.get("flightNumber")
-            departure_time = dateutil.parser.isoparse(f_data.get("departureTime"))
-            boarding_time = departure_time - timedelta(minutes=45)
-            gate = f"C{random.randint(1, 30):02}"
-
-            cls.flights[f_num] = Flight(
-                f_num,
-                f_data.get("aircraft").get("model"),
-                boarding_time.strftime("%H:%M"),
-                departure_time.strftime("%H:%M"),
-                gate
-            )
-    
-    @classmethod
-    def populate_flights_fallback(cls):
-        print("fallback called")
         for f_num, f_data in flight_data.items():
-            cls.flights[f_num] = Flight(
+            temp_flight = Flight(
                 f_num,
                 f_data.get("plane_type"),
                 f_data.get("boarding_time"),
                 f_data.get("departure_time"),
                 f_data.get("gate")
             )
+            #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
