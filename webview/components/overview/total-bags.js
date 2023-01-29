@@ -22,7 +22,7 @@ export const TotalBags = (props) => (
             color="textPrimary"
             variant="h4"
           >
-            175
+            39
           </Typography>
         </Grid>
         <Grid item>

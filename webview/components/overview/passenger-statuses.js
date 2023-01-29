@@ -3,10 +3,50 @@ import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } fro
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TabletIcon from '@mui/icons-material/Tablet';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { flightNumberAtom } from '../atoms';
 
 export const PassengerStatuses = (props) => {
   const theme = useTheme();
-  const percentages = [63, 15, 22]; //boarded, checked in, booked
+  const [percentages, setPercentages] = useState([63, 15, 22]); //boarded, checked in, booked
+  const flightNumber = useRecoilValue(flightNumberAtom);
+
+  useEffect(() => {
+    // get_flight_status
+    // console.log("here");
+    const url = 'http://127.0.0.1:5000/api/post';
+    const body = {
+      "username": "admin_acc",
+      "query": {
+        "type": "get_flight_status",
+        "flight_number": flightNumber
+      }
+    };
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(body) })
+      .then(data => data.json())
+      .then((data) => {
+        // console.log(data[1]["flight"]["passengers"]);
+        data = data[1];
+        console.log(data);
+        const total = data['boarded'] + data['checked_in'] + data['concourse'] + data['security'] + data['unconfirmed'];
+        console.log(total);
+        const fetch_percentages = [
+          (data['boarded'] / total * 100).toFixed(2), 
+          (data['checked_in'] / total * 100).toFixed(2), 
+          (data['unconfirmed'] / total * 100).toFixed(2)
+        ];
+        setPercentages(fetch_percentages);
+        console.log(data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    // console.log("here2");
+  }, []);
 
   const data = {
     datasets: [
@@ -18,7 +58,7 @@ export const PassengerStatuses = (props) => {
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Boarded', 'Checked In', 'Booked']
+    labels: ['Boarded', 'Checked In', 'Unconfirmed']
   };
 
   const options = {
@@ -57,7 +97,7 @@ export const PassengerStatuses = (props) => {
       color: '#086591'
     },
     {
-      title: 'Booked',
+      title: 'Unconfirmed',
       value: percentages[2],
       icon: PhoneIcon,
       color: '#b53126'

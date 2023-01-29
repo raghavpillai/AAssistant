@@ -21,7 +21,7 @@ export const BagCapacity = (props) => (
             color="textPrimary"
             variant="h4"
           >
-            200
+            180
           </Typography>
         </Grid>
         <Grid item>
