@@ -31,31 +31,26 @@ export default function LandingPage() {
             return(<BagConfirmation/>)
         }
         else if (view == 3) {
-          return (<ToSecurity/>)
+          return (<ToAirport/>)
         }
         else if (view == 4) {
           return (<ToGate/>)
         }
-        else if (view == 5) {
-          return (<Boarding/>)
-        }
-        else if (view == 6) {
-          return (<SeatFinal/>)
-        }
+        else 
+          return(<ToSecurity/>)
     }
 
-    // const items = [a, b, a]
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
               setView(7)
           }
           else{
-              setView(Math.abs(view-1)%7)
+              setView(Math.abs(view-1)%6)
           }
       }
       else{
-          setView(Math.abs(view+1)%7)
+          setView(Math.abs(view+1)%6)
       }
     }
     return(
@@ -79,7 +74,7 @@ export default function LandingPage() {
         </View>
       </View>
 
-        <View  style={styles.card}>
+        <View style={styles.card}>
             <View style={styles.buttonrow}>
            
         <Button title="back" style={styles.btn1} onPress={()=>handleClick("next")} />
