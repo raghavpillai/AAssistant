@@ -251,11 +251,11 @@ class ActionHandler:
         print("User Population - B")
         for i in range(148):
             temp_user = User(
-                f"dummy_user_{i}",
+                f"dummy_user_{148+i}",
                 "dummy_password",
                 "user",
-                67710+i,
-                f"Dummy {i}"
+                67710+148+i,
+                f"Dummy {148+i}"
             )
             cls.change_user_progress(temp_user.username, statuses[random.randint(0,3)])
             cls.add_flight_seat("AA 1512", temp_user.username, seats[i])
@@ -265,13 +265,13 @@ class ActionHandler:
         print("User Population - C")
         for i in range(148):
             temp_user = User(
-                f"dummy_user_{i}",
+                f"dummy_user_{148+148+i}",
                 "dummy_password",
                 "user",
-                67710+i,
-                f"Dummy {i}"
+                67710+148+148+i,
+                f"Dummy {148+148+i}"
             )
-            cls.change_user_progress(temp_user.username, statuses[random.randomint(0,3)])
+            cls.change_user_progress(temp_user.username, statuses[random.randint(0,3)])
             cls.add_flight_seat("AA 1513", temp_user.username, seats[i])
             cls.add_bags("AA 1513", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A3B2")
