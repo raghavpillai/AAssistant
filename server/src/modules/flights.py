@@ -243,7 +243,7 @@ class ActionHandler:
                 67710+i,
                 f"Dummy {i}",
             )
-            cls.change_user_progress(temp_user.username, statuses[random.randomint(0,3)])
+            cls.change_user_progress(temp_user.username, statuses[random.randint(0,3)])
             cls.add_flight_seat("AA 1511", temp_user.username, seats[i])
             cls.add_bags("AA 1511", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A1B2")
@@ -257,7 +257,7 @@ class ActionHandler:
                 67710+i,
                 f"Dummy {i}"
             )
-            cls.change_user_progress(temp_user.username, statuses[random.randomint(0,3)])
+            cls.change_user_progress(temp_user.username, statuses[random.randint(0,3)])
             cls.add_flight_seat("AA 1512", temp_user.username, seats[i])
             cls.add_bags("AA 1512", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A2B2")
