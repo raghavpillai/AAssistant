@@ -6,18 +6,22 @@ class SessionHandler:
     @classmethod
     def route_request(cls, username, request):
         match request["type"]:
-            case "login":
+            case "login": # Requests login handshake
                 return ActionHandler.login_request(username, request["password"])
-            case "status":
+            case "status": # Gets user status
                 return ActionHandler.get_user_status(username)
-            case "checkin_bags":
+            case "checkin_bags": # Sends bags to checkin
                 return ActionHandler.add_bags(request["flight_number"], username, request["bag_count"])
-            case "select_seat":
+            case "select_seat": # Requests single seat
                 return ActionHandler.add_flight_seat(request["flight_number"], username, request["flight_seat"])
-            case "change_user_progress":
+            case "change_user_progress": # Changes user progress
                 return ActionHandler.change_user_progress(username, request["progress"])
-            case "change_flight_progress":
+            case "change_flight_progress": # Changes flight progress
                 return ActionHandler.change_flight_status(request["flight_number"], request["status"])
+            case "validate_ticket": # Validates ticket and assigns user to plane if validated
+                return ActionHandler.assign_plane_given_ticket(username, request["ticket_number"])
+            case "get_flight_status": # Gets flight status for a given ticket
+                return ActionHandler.get_flight_statuses(request["flight_number"])
         
         # Change status (arrived, security, available, boarding)
         # Checkin bags (how many bags to checkin)
@@ -30,4 +34,5 @@ class SessionHandler:
     def initialize(cls):
         #ActionHandler.populate_users()
         #ActionHandler.populate_flights()
+        #ActionHandler.assign_plane_given_ticket("user_acc", "A1B2")
         pass
