@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '120%',
         marginTop: '-10%',
+       
         position: 'absolute',
     },
     container: {
@@ -82,16 +83,18 @@ const styles = StyleSheet.create({
       width: 100,
       height: 1,
       marginTop: '34%',
-      marginLeft: '36%',
+      marginLeft: '40%',
       position: "absolute",
-      fontSize: 25,
-      color: "#ffffff"
+      fontSize: 30,
+      color: "#ffffff",
+      fontWeight: 'bold',
     },
     logoimg: {
       width: "10%",
-      height: 1,
-      marginTop: '28%',
-      marginLeft: '15%',
+    
+      height: -1,
+      marginTop: '29%',
+      marginLeft: '13%',
       position: "absolute",
     },
     top: {
@@ -99,5 +102,6 @@ const styles = StyleSheet.create({
       flexWrap:'wrap',
       paddingTop: '15%',
     },
+  
  
 });

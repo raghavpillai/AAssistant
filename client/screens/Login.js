@@ -2,7 +2,9 @@ import { useState } from 'react';
 import {StyleSheet, ImageBackground, Image, Text} from 'react-native';
 import { Center, Heading, Box, VStack, FormControl, Button, Input } from "native-base";
 import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
-import aa from '../assets/aa.png'
+import aa from '../assets/aatop.png'
+import logo from '../assets/logo.png'
+
 
 export default function Login(){
 
@@ -23,6 +25,8 @@ export default function Login(){
       <>
       <ImageBackground style={styles.image} source={bgimg}></ImageBackground>
       <Image source={aa} style={styles.logo}></Image>
+      <Image source={logo} style={styles.img}></Image>
+
     <Center w="80%" style={styles.container} blurRadius={5}>
         <Box safeArea p="2" w="90%" maxW="290" py="8">
           <Heading size="lg" color="coolGray.800" fontWeight="semibold">
@@ -73,9 +77,17 @@ const styles = StyleSheet.create({
     },
     logo: {
       position: 'absolute',
-      marginTop: '-5%',
-      width: '100%',
-
+      marginTop: '25%',
+      marginLeft: '17%',
+      width: '30%',
+      height: '-5%'
+    },
+    img: {
+      position: 'absolute',
+      width: '20%',
+      height: '6%',
+      marginLeft: '58%',
+      marginTop: '22%',
     },
     error: {
       color: 'red',

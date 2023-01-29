@@ -23,25 +23,22 @@ export default function LandingPage() {
     const [view, setView] = useState(0)
     
     const Page = () => {
-        if(view == 0){
-            return(<CheckInButton func={setView}/>)
-        }
-        else if (view == 1){
+        if (view == 0){
             return(<BagSeat func={setView}/>)
         }
-        else if (view == 2){
+        else if (view == 1){
             return(<BagConfirmation/>)
         }
+        else if (view == 2) {
+          return (<ToAirport terminal={"terminal d"}/>)
+        }
         else if (view == 3) {
-          return (<ToAirport terminal={"terminal e"}/>)
+          return(<ToSecurity gate={"25"} security={"D22"}/>)
         }
         else if (view == 4) {
-          return (<ToGate terminal={"terminal c"} gate={"31"}/>)
+          return (<ToGate terminal={"terminal d"} gate={"25"}/>)
         }
         else if (view == 5) {
-          return(<ToSecurity gate={"31"} security={"A12"}/>)
-        }
-        else if (view == 6) {
           return (<Boarding/>)
         }
         else 
@@ -50,25 +47,22 @@ export default function LandingPage() {
     }
 
     const Task = () => {
-        if (view == 0) {
-          return (<Text>Check-in starting in 35 hrs</Text>)
-        }
-        else if (view == 1) {
+    if (view == 0) {
           return (<Text>Choose a seat and bag amount</Text>)
         }
-        else if (view == 2) {
+        else if (view == 1) {
           return (<Text>Note down your bag id's</Text>)
         }
-        else if (view == 3) {
+        else if (view == 2) {
           return (<Text>Make your way to the airport</Text>)
         }
-        else if (view == 4) {
+        else if (view == 3) {
           return (<Text>Make your way to the security</Text>)
         }
-        else if (view == 5) {
+        else if (view == 4) {
           return (<Text>Make your way to your gate</Text>)
         }
-        else if (view == 6) {
+        else if (view == 5) {
           return (<Text>Wait for your group to be called</Text>)
         }
         else 
@@ -85,8 +79,8 @@ export default function LandingPage() {
           }
       }
       else{
-        if (view == 7) {
-          setView(7)
+        if (view == 6) {
+          setView(6)
         }
         else
           setView(Math.abs(view+1))
@@ -108,7 +102,6 @@ export default function LandingPage() {
       
       <View style={styles.task}>
         <View style={[styles.spacersm, styles.row]}>
-          <Text style={[styles.light, styles.bold]}>Task</Text>
           <Text style={[styles.bold, styles.major]}><Task/></Text>
         </View>
       </View>
@@ -116,9 +109,9 @@ export default function LandingPage() {
         <View style={styles.card}>
             <View style={styles.buttonrow}>
            
-        <Button title="back" style={styles.btn1} onPress={()=>handleClick("left")} />
+        <Button title="<" style={styles.btn1} onPress={()=>handleClick("left")} />
              
-              <Button title="next" style={styles.btn2} onPress={()=>handleClick("next")} />
+              <Button title=">" style={styles.btn2} onPress={()=>handleClick("next")} />
             </View>
             <Page style={styles.page}/>
         </View>
@@ -188,14 +181,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   spacersm: {
-      marginTop: '5%',
-      marginLeft: '5%'
+      marginHorizontal: '7%',
+      marginVeritcal: '10%'
   },
   light: {
     color: "#bbbcc0"
   },
   major: {
     fontSize: '20px',
+    justifyContent: "center"
   },
   btn1: {
     position: "absolute",
