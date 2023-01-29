@@ -1,5 +1,8 @@
 import requests
 import json
+import bisect
+
+SECONDS_IN_DAY = 86400
 
 class SecurityGates:
     security_gates: dict = {
@@ -7,7 +10,6 @@ class SecurityGates:
         "Priority": {}, 
         "TSA Pre-Check": {}
     }
-
     @classmethod
     def fetch_gates(cls):
         headers: dict = {
@@ -45,7 +47,54 @@ class SecurityGates:
                 case "Priority":
                     cls.security_gates["Priority"][gate["name"]] = gate
     
+    @classmethod
+    def get_time(cls, gate, departure_time, boarding_type="General"):
+        if not isinstance(departure_time, int):
+            return []
+        # departure_time is in unix time, seconds since 1970
+        # first fix departure_time so that it's the same day or whatever as the wait times in the security gates
+        departure_time %= SECONDS_IN_DAY
+        gate_letter = gate[0]
 
-SecurityGates.fetch_gates()
-#print(SecurityGates.security_gates)
-#print(security_gates)
+        possible_gates = [x for x in cls.security_gates[boarding_type].keys() if x[0] == gate_letter and cls.security_gates[boarding_type][x]["open"]]
+        gate_times = {}
+        for x in possible_gates:
+            gate_times[x] = cls.get_gate_time(x, departure_time, boarding_type) + abs(int(x[1:]) - int(gate[1:]))
+        #convert this dictionary into an array sorted by value
+        gate_times = sorted(gate_times.items(), key=lambda x: x[1])
+        #convert gate_times to a list of lists
+        gate_times = [[x[0], x[1]] for x in gate_times]
+        return gate_times
+
+    @classmethod
+    def get_gate_time(cls, gate, departure_time, boarding_type="General"):
+        waitTimePredictions = cls.security_gates[boarding_type][gate]["waitTimePredictions"]
+        waitTimePredictions = [x for x in waitTimePredictions if not x["closed"]]
+
+        waitTimePredictions.sort(key=lambda x: x["slotTimestamp"])
+
+        binary_searchable_wait_times = [x["slotTimestamp"] % SECONDS_IN_DAY for x in waitTimePredictions]
+        security_wait_time = waitTimePredictions[bisect.bisect_left(binary_searchable_wait_times, departure_time) % len(waitTimePredictions)]["waitMinutes"]
+        return security_wait_time
+
+    @classmethod
+    def get_travel_time(cls, cur_loc):
+        # cur_loc is a tuple of [lat, long]
+        params = {
+            'origins': f"{str(cur_loc[0])},{str(cur_loc[1])}",
+            'destinations': "32.906005,-97.039366",
+            'key': 'AIzaSyBJ6AqAaKcN_gasy2YE2DcRQm77Ip-KBkc',
+        }
+        headers = {
+            "Accept-Language": "en-US,en;q=0.5"
+        }
+
+        response = requests.get('https://maps.googleapis.com/maps/api/distancematrix/json', params=params, headers=headers)
+        return response.json()['rows'][0]['elements'][0]['duration']['text']
+
+if __name__ == "__main__":
+    print(SecurityGates.get_travel_time([30.624804, -96.331321]))
+    exit()
+    SecurityGates.fetch_gates()
+    for i in range(0, 10):
+        print(SecurityGates.get_time("E9", 1600000000 + 900 * i))
