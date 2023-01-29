@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
     companylogo: {
       width: 100,
       height: 1,
-      marginTop: '34%',
-      marginLeft: '40%',
+      marginTop: '37%',
+      marginLeft: '38%',
       position: "absolute",
       fontSize: 30,
       color: "#ffffff",
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     logoimg: {
       width: "10%",
     
-      height: -1,
-      marginTop: '29%',
+      height: '-1%',
+      marginTop: '31%',
       marginLeft: '13%',
       position: "absolute",
     },
