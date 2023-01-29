@@ -17,15 +17,15 @@ export default function Widget() {
     <>
       <View style={styles.container}>
         <View style={[styles.row, styles.spacersm]}>
+          <Text style={[styles.item, styles.bold]}>DFW</Text>
           <Text style={[styles.item, styles.bold]}>LHR</Text>
-          <Text style={[styles.item, styles.bold]}>SFO</Text>
         </View>
         <View style={styles.row}>
+          <Text style={[styles.item]}>Dallas</Text>
           <Text style={[styles.item]}>London</Text>
-          <Text style={[styles.item]}>San Francisco</Text>
         </View>
         <View>
-            <Progress.Bar progress={1} width={315} color={'rgba(71,137,223, 1)'} borderColor={"black"} borderWidth={.4} style={[styles.bar, styles.spacersm]}/>
+            <Progress.Bar progress={0} width={315} color={'rgba(71,137,223, 1)'} borderColor={"black"} borderWidth={.4} style={[styles.bar, styles.spacersm]}/>
         </View>
         <View style={[styles.row, styles.spacersm]}>
           <Text style={[styles.item, styles.light, styles.bold]}>
@@ -36,16 +36,18 @@ export default function Widget() {
           </Text>
         </View>
         <View style={styles.row}>
-          <Text style={[styles.item]}>Feb 25, 2022</Text>
-          <Text style={[styles.item]}>123456</Text>
+          <Text style={[styles.item]}>Jan 31, 2023</Text>
+          <Text style={[styles.item]}>AA 20</Text>
         </View>
         <View style={[styles.row, styles.spacersm]}>
-          <Text style={[styles.item, styles.light, styles.bold]}>Gate</Text>
+          <Text style={[styles.item, styles.light, styles.bold]}>Tim</Text>
           <Text style={[styles.item, styles.light, styles.bold]}>Terminal</Text>
+          <Text style={[styles.item, styles.light, styles.bold]}>Gate</Text>
         </View>
         <View style={styles.row}>
-          <Text style={[styles.item]}>15</Text>
-          <Text style={[styles.item]}>E</Text>
+          <Text style={[styles.item]}>3:25 pm</Text>
+          <Text style={[styles.item]}>D</Text>
+          <Text style={[styles.item]}>D25</Text>
         </View>
       </View>
     </>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   spacersm: {
-    marginTop: "5%",
+    marginTop: "3.5%",
   },
   spacerlg: {
     marginTop: "10%",
