@@ -80,6 +80,7 @@ class SecurityGates:
         gate_times: list = sorted(gate_times.items(), key=lambda x: x[1])
 
         #convert gate_times to a list of lists
+        print(gate_times)
         gate_times: list = [[x[0], x[1]] for x in gate_times]
         gate_times.append([gate, 17.125])
         return gate_times# or [gate, 17.125]

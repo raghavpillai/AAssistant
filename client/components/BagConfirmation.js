@@ -22,6 +22,7 @@ export default function BagConfirmation() {
         Check-in successful!
         </Text>
         <View style={styles.bottomform}>
+          <Text>All Bags</Text>
           {ids && ids.map((item, key) => {
             return (
               <Text key={key} style={styles.subtext}>{item}</Text>
