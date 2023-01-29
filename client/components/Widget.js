@@ -37,7 +37,7 @@ export default function Widget({departure, flightNum, gate}) {
           </Text>
         </View>
         <View style={styles.row}>
-          <Text style={[styles.item]}>{date.getMonth()+1}-{date.getDate()}-{date.getFullYear()}</Text>
+          <Text style={[styles.item]}>{date.getMonth()+1}/{date.getDate()}</Text>
           <Text style={[styles.item]}>{flightNum}</Text>
         </View>
         <View style={[styles.row, styles.spacersm]}>
@@ -46,7 +46,7 @@ export default function Widget({departure, flightNum, gate}) {
           <Text style={[styles.item, styles.light, styles.bold]}>Gate</Text>
         </View>
         <View style={styles.row}>
-          <Text style={[styles.item]}>{date.getHours()}:{date.getMinutes()}</Text>
+          <Text style={[styles.item]}>{date.getHours() % 12}:{date.getMinutes()}</Text>
           <Text style={[styles.item]}>{gate[0]}</Text>
           <Text style={[styles.item]}>{gate}</Text>
         </View>

@@ -14,7 +14,6 @@ import {
 
   export default function ToGate() {
     const [seatNum, setSeatNum] = useRecoilState(userInputs)
-    console.log(seatNum.seat)
     return (
       <>
         <View style={styles.container}>
