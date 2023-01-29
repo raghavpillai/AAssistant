@@ -9,6 +9,7 @@ import FindTrip from "./screens/FindTrip.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
