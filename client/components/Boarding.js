@@ -23,14 +23,14 @@ import {
     const [ticket, setT] = useRecoilState(ticketNum)
 
     const items = {
-      "N/A": 0,
-      "Unconfirmed": 0,
-      "At Gate": 1,
-      "Boarding First Class": 2,
-      "Boarding Group A": 3,
-      "Boarding Group B": 4,
-      "Boarding Group C": 5,
-      "Boarding Group D": 6
+      "N/A": [0, "Boarding has not begun"],
+      "Unconfirmed": [0, "Boarding has not begun"],
+      "At Gate": [1, "Boarding will begin soon. Be ready for your group!"],
+      "Boarding First Class": [2, "Now boarding First Class. Group A up next."],
+      "Boarding Group A": [3, "Now boarding Group A. Group B up next."],
+      "Boarding Group B": [4, "Now boarding Group B. Group C up next."],
+      "Boarding Group C": [5, "Now boarding Group C. Group D up next."],
+      "Boarding Group D": [6, "Now boarding Group D. Enjoy your flight!"],
     }
 
     useEffect(() => {
@@ -61,8 +61,8 @@ import {
     return (
       <>
         <View style={styles.container}>
-            <Text style={styles.text}>{status}</Text>
-            <Progress.Bar progress={items[status]/6} width={315} color={'rgba(51,117,203,1)'} borderColor={"gray"} borderWidth={.4} style={styles.bar}/>
+            <Text style={styles.text}>{items[status][1]}</Text>
+            <Progress.Bar progress={items[status][0]/6} width={315} color={'rgba(51,117,203,1)'} borderColor={"gray"} borderWidth={.4} style={styles.bar}/>
         </View>
       </>
     );

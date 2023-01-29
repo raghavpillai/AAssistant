@@ -64,11 +64,11 @@ export default function Login({func}){
           <VStack space={3} mt="5">
             <FormControl>
               <FormControl.Label _text={{color: "#000000"}}>Username</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setUser({ ...username, val: value})}/>
+              <Input autoCapitalize="none" _text={{color: "#ffffff"}} type="" onChangeText={value => setUser({ ...username, val: value})}/>
             </FormControl>
             <FormControl>
               <FormControl.Label _text={{color: "#000000"}}>Password</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="password" onChangeText={value => setPass({ ...password, val: value})}/>
+              <Input autoCapitalize="none" _text={{color: "#ffffff"}} type="password" onChangeText={value => setPass({ ...password, val: value})}/>
             </FormControl>
             <Button mt="2" _pressed={{backgroundColor: "#1153a9"}} bg="#3375cb" onPress={handleClick}>
               Sign In

@@ -54,15 +54,7 @@ export default function FindTrip({ navigation }) {
           </Heading>
           <VStack space={3} mt="5" style={styles.stack}>
             <FormControl>
-              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>First Name</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setFname({ ...fname, val: value})}/>
-            </FormControl>
-            <FormControl>
-              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Last Name</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setLname({ ...lname, val: value})}/>
-            </FormControl>
-            <FormControl>
-              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Record locator / ticket or credit number</FormControl.Label>
+              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Ticket Number</FormControl.Label>
               <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setTicket({value})}/>
             </FormControl>
             <Button mt="2" _pressed={{backgroundColor: "#1153a9"}} bg="#3375cb" onPress={handleClick}>
