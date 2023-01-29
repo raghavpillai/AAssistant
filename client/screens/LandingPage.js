@@ -24,11 +24,35 @@ import { loggedState, ticketNum, securityGate } from '../store/States';
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
+    const [time, setTime] = useState(0)
 
     const [user, setU] = useRecoilState(loggedState)
     const [ticket, setTicket] = useRecoilState(ticketNum)
     const [security, setSecurity] = useRecoilState(securityGate)
-  
+    
+
+    useEffect(() => {
+      fetch('http://127.0.0.1:5000/api/post', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            "username": user.name,
+            "query": {
+                "type": "get_travel_times",
+                "gate": ticket[1][0].gate,
+            }
+          })
+        }).then(response => response.json())
+          .then(res => {
+            setTime(res[1].time_to_leave)
+            // setStatus(res[1].flight.status)
+      })
+    },[])
+
+    const date = new Date(time * 1000);
+
     const Page = () => {
         if (view == 0){
             return(<BagSeat func={setView}/>)
@@ -64,7 +88,7 @@ export default function LandingPage() {
           return (<Text>Note down your bag ids</Text>)
         }
         else if (view == 2) {
-          return (<Text>Make your way to the airport terminal</Text>)
+          return (<Text>Make your way to the airport terminal by {date.getHours()}:{date.getMinutes()}</Text>)
         }
         else if (view == 3) {
           return (<Text>Make your way to your gate</Text>)
@@ -96,6 +120,7 @@ export default function LandingPage() {
           setView(Math.abs(view+1))
       }
     }
+  
     return(
 
     <ImageBackground source={bgimg} resizeMode="cover" style={styles.image}>
