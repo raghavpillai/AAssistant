@@ -19,6 +19,7 @@ class ActionHandler:
         Persistence.update_collection(user_db, username, {"status": progress})
         return [True, Persistence.get_collection(user_db, username)]
     
+
     @classmethod
     def login_request(cls, username, password):
         db_search_results = Persistence.get_collection(user_db, username)
@@ -28,6 +29,7 @@ class ActionHandler:
             return [False, "invalid password"]
         
         return [True, db_search_results]
+
 
     @classmethod
     def populate_users(cls):
@@ -41,6 +43,7 @@ class ActionHandler:
             temp_user.flight_number = data.get("flight_num")
             temp_user.status = "unconfirmed"
             #Persistence.update_collection(user_db, "user_acc", {"bags": ['aaaa']})
+
 
     @classmethod
     def get_passenger_statuses(cls, flight_number):
@@ -66,7 +69,7 @@ class ActionHandler:
             "boarded": boarded
         }]
         
-
+    
     @classmethod
     def add_flight_seat(cls, flight_number, username, flight_seat):
         flight_data = Persistence.get_collection(flight_db, flight_number)
@@ -105,12 +108,13 @@ class ActionHandler:
     
 
     @classmethod
-    def get_flight_status(cls, flight_number):
-        return (
-            [True, Persistence.get_collection(flight_db, flight_number)]
-            if Persistence.get_collection(flight_db, flight_number)
-            else [False, "Flight number invalid"]
-        )
+    def get_user_status(cls, username):
+        ret = {"user": Persistence.get_collection(user_db, username), "flight": None}
+        flight_num = ret.get("user").get("flight_number")
+        if ret["user"].get("flight_number") is not None:
+            ret["flight"] = Persistence.get_collection(flight_db, flight_num)
+
+        return [True, ret]
 
 
     @classmethod

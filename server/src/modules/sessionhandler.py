@@ -1,6 +1,5 @@
-from src.modules.user import User, user_data
+
 from src.modules.flights import ActionHandler
-from src.modules.persistence import Persistence, user_db
 
 class SessionHandler:
 
@@ -8,9 +7,9 @@ class SessionHandler:
     def route_request(cls, username, request):
         match request["type"]:
             case "login":
-                return cls.login_request(username, request["password"])
+                return ActionHandler.login_request(username, request["password"])
             case "status":
-                return ActionHandler.get_flight_status(request["flight_number"])
+                return ActionHandler.get_user_status(username)
             case "checkin_bags":
                 return ActionHandler.add_bags(request["flight_number"], username, request["bag_count"])
             case "select_seat":
@@ -26,8 +25,9 @@ class SessionHandler:
         # Check boarding status
         # Get flight status
 
+
     @classmethod
     def initialize(cls):
-        pass
         #ActionHandler.populate_users()
         #ActionHandler.populate_flights()
+        pass
