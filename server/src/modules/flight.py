@@ -35,7 +35,6 @@ class Flight:
         self.boarding_time = boarding_time
         self.departure_time = departure_time
         self.gate = gate
-        self.current_boarding_group = None
         self.status = "N/A"
         self.plane_type = plane_type
 
@@ -49,7 +48,6 @@ class Flight:
                 "boarding_time": self.boarding_time,
                 "departure_time": self.departure_time,
                 "gate": self.gate,
-                "current_boarding_group": self.current_boarding_group,
                 "status": self.status,
                 "plane_type": self.plane_type,
                 "passengers": self.passengers,

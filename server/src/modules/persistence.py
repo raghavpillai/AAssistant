@@ -51,7 +51,7 @@ class Persistence:
         # else:
         #     print(value)
         #     print("AAA", next(iter(value)), list(value.values())[0] )
-
+        
         return collection.update_one(
             {"name": key},
             {"$set": value}

@@ -5,13 +5,15 @@ user_data = {
         "id": 67701,
         "password": "test_password",
         "level": "admin",
-        "flight_num": None
+        "flight_num": None,
+        "name": "Admin User"
     },
     "user_acc": {
         "id": 67702,
         "password": "test_password",
         "level": "user",
-        "flight_num": "AA 1511"
+        "flight_num": "AA 1511",
+        "name": "Normal User"
     }
 }
 
@@ -24,11 +26,12 @@ class User(object):
             Persistence.update_collection(user_db, self.username, {key: value})
 
 
-    def __init__(self, username: str, password: str, level: str, id: int):
+    def __init__(self, username: str, password: str, level: str, id: int, full_name: str):
         self.admin_level = level
         self.username = username
         self.password = password
         self.id = id
+        self.full_name = full_name
         
         self.bags = []
         self.ticket_number = ""
@@ -43,6 +46,7 @@ class User(object):
             {
                 "id": self.id,
                 "password": self.password,
+                "full_name": self.full_name,
                 "level": self.admin_level,
                 "flight_num": self.flight_number,
                 "bags": self.bags,
@@ -51,7 +55,6 @@ class User(object):
                 "seat_number": self.seat_number,
                 "status": self.status
             }
-
         )
 
         self.__initialized = True
