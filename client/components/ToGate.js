@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,17 +7,36 @@ import MapView from 'react-native-maps'
 import { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
-export default function ToGate() {
-  const [coordinates] = useState([
-    {
-      latitude: 30.6187,
-      longitude: -96.3365,
-    },
-    {
-      latitude: 32.8998,
-      longitude: -97.0403,
-    },
-  ]);
+export default function ToAirport({terminal, gate}) {
+  const mode = 'walking'; // 'walking';
+  const origin = `dfw ${terminal}`;
+  const destination = `dfw gate ${gate}`;
+  const APIKEY = 'AIzaSyDQTiDieElmopRZrCBJu3ZEBRt3jnSAvsE';
+  const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${APIKEY}&mode=${mode}`;
+
+  const [coordinates, setCoords] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log(responseJson.routes[0].legs[0].start_location)
+      setCoords([
+        {
+          latitude:responseJson.routes[0].legs[0].start_location.lat,
+          longitude:responseJson.routes[0].legs[0].start_location.lng
+        },
+        {
+          latitude:responseJson.routes[0].legs[0].end_location.lat,
+          longitude:responseJson.routes[0].legs[0].end_location.lng
+        }
+      ])
+    }).catch(e => {console.warn(e)});
+  },[])
+
+  if(coordinates != null){
+
+  
   return (
     <>
     <View style={styles.container}>
@@ -41,7 +60,10 @@ export default function ToGate() {
         </MapView>
     </View>
     </>
-  );
+  );}
+  else {
+    return <></>
+  }
 }
 
 const styles = StyleSheet.create({

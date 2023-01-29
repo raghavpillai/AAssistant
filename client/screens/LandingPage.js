@@ -31,13 +31,13 @@ export default function LandingPage() {
             return(<BagConfirmation/>)
         }
         else if (view == 3) {
-          return (<ToAirport/>)
+          return (<ToAirport terminal={"terminal e"}/>)
         }
         else if (view == 4) {
-          return (<ToGate/>)
+          return (<ToGate terminal={"terminal c"} gate={"31"}/>)
         }
         else 
-          return(<ToSecurity/>)
+          return(<ToSecurity gate={"31"} security={"2"}/>)
     }
 
     const handleClick = (side) => {
