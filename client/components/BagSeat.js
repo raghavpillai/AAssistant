@@ -19,14 +19,14 @@ import BagConfirmation from "./BagConfirmation";
 import { RNSVGSymbol } from "react-native-svg";
 const data = [
   {
-    label: "8A",
+    label: "5A",
     value: "1",
   },
-  { label: "8B", value: "2" },
-  { label: "8C", value: "3" },
-  { label: "9A", value: "4" },
-  { label: "9B", value: "5" },
-  { label: "9C", value: "6" },
+  { label: "5B", value: "2" },
+  { label: "5C", value: "3" },
+  { label: "6A", value: "4" },
+  { label: "6B", value: "5" },
+  { label: "6C", value: "6" },
 ];
 
 const data1 = [

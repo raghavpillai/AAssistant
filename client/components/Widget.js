@@ -40,7 +40,7 @@ export default function Widget() {
           <Text style={[styles.item]}>AA 20</Text>
         </View>
         <View style={[styles.row, styles.spacersm]}>
-          <Text style={[styles.item, styles.light, styles.bold]}>Tim</Text>
+          <Text style={[styles.item, styles.light, styles.bold]}>Time</Text>
           <Text style={[styles.item, styles.light, styles.bold]}>Terminal</Text>
           <Text style={[styles.item, styles.light, styles.bold]}>Gate</Text>
         </View>

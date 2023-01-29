@@ -51,41 +51,45 @@ export default function LandingPage() {
 
     const Task = () => {
         if (view == 0) {
-          return (<Text>Please check in within 48 hours.</Text>)
+          return (<Text>Check-in starting in 35 hrs</Text>)
         }
         else if (view == 1) {
-          return (<Text>Hello</Text>)
+          return (<Text>Choose a seat and bag amount</Text>)
         }
         else if (view == 2) {
-          return (<Text></Text>)
+          return (<Text>Note down your bag id's</Text>)
         }
         else if (view == 3) {
-          return (<Text></Text>)
+          return (<Text>Make your way to the airport</Text>)
         }
         else if (view == 4) {
-          return (<Text></Text>)
+          return (<Text>Make your way to the security</Text>)
         }
         else if (view == 5) {
-          return (<Text></Text>)
+          return (<Text>Make your way to your gate</Text>)
         }
         else if (view == 6) {
-          return (<Text></Text>)
+          return (<Text>Wait for your group to be called</Text>)
         }
         else 
-          return (<SeatFinal/>)
+          return (<Text>Make your way to your seat</Text>)
     }
 
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(7)
+              setView(0)
           }
           else{
-              setView(Math.abs(view-1)%8)
+              setView(Math.abs(view-1))
           }
       }
       else{
-          setView(Math.abs(view+1)%8)
+        if (view == 7) {
+          setView(7)
+        }
+        else
+          setView(Math.abs(view+1))
       }
     }
     return(
