@@ -19,29 +19,9 @@ import BagConfirmation from "./BagConfirmation";
 import { RNSVGSymbol } from "react-native-svg";
 import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
 
-import { userInputs, loggedState, ticketNum, bagIds, securityGate, timeDelay } from "../store/States";
+import { userInputs, loggedState, ticketNum, bagIds, securityGate, timeDelay, seatNum } from "../store/States";
 
-const data = [
-  {
-    label: "5A",
-    value: "1",
-  },
-  { label: "5B", value: "2" },
-  { label: "5E", value: "3" },
-  { label: "5F", value: "4" },
-  { label: "6A", value: "6" },
-  { label: "6B", value: "7" },
-  { label: "6E", value: "8" },
-  { label: "6F", value: "9" },
-  { label: "7A", value: "6" },
-  { label: "7B", value: "7" },
-  { label: "7C", value: "8" },
-  { label: "7D", value: "9" },
-  { label: "7E", value: "10" },
-  { label: "7F", value: "11" },
-
-];
-
+let seatList = []
 const data1 = [
   {
     label: "0",
@@ -76,7 +56,33 @@ const BagSeat = ({func}) => {
   const [sec, setSec] = useRecoilState(securityGate)
   const [delay, setDelay] = useRecoilState(timeDelay)
 
+
+  let data = ticket[1][0].seats  
+  console.log(data)
+  let k = 1
+  for (let i = 3; i < 30; i++) {
+      let seats = data[i.toString()]
+      let letters = [];
+      letters = []
+      if (i < 7) {
+          letters = ["A", "B", "E", "F"]
+      } else {
+          letters = ["A", "B", "C", "D", "E", "F"]
+      }
+
+      for (let j = 0; j < letters.length; j++) {
+        if (!seats[letters[j]][0]) {
+          const new_entry = {label: i.toString() + letters[j], value: k}
+          k++ 
+          seatList.push(new_entry)
+        }
+      }  
+  }
+  data = seatList
+  console.log(seatList)
+
   const handleClick = () => {
+    console.log(ticket[1][0].seats)
     setInputs({
       seat: seat,
       bags: parseInt(bags)

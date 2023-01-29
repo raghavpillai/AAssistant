@@ -36,3 +36,8 @@ export const timeDelay = atom({
     key: 'timeDelay',
     default: 0
 })
+
+export const seatNum = atom({
+    key: 'seatNum',
+    default: "0A"
+})

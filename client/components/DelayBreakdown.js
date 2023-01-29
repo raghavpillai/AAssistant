@@ -3,7 +3,7 @@ import React from 'react';
 import {ImageBackground, StyleSheet, Text, View, Image, Pressable} from 'react-native';
 import {useRecoilState} from 'recoil';
 
-import { timeDelay } from '../store/States';
+import { timeDelay, seatNum } from '../store/States';
 
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryPie} from "victory-native";
 

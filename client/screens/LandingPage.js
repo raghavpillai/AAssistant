@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {ImageBackground, StyleSheet, Text, View, Box, Image, Button, Pressable} from 'react-native';
 
@@ -16,7 +16,9 @@ import Boarding from '../components/Boarding';
 import SeatFinal from '../components/SeatFinal'
 import DelayBreakdown from '../components/DelayBreakdown';
 
-import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
+import * as Progress from "react-native-progress";
+
+import { useRecoilState } from 'recoil';
 
 import { loggedState, ticketNum, securityGate } from '../store/States';
 
@@ -26,7 +28,7 @@ export default function LandingPage() {
     const [user, setU] = useRecoilState(loggedState)
     const [ticket, setTicket] = useRecoilState(ticketNum)
     const [security, setSecurity] = useRecoilState(securityGate)
-    
+  
     const Page = () => {
         if (view == 0){
             return(<BagSeat func={setView}/>)
@@ -128,6 +130,7 @@ export default function LandingPage() {
               <Button title=">" style={styles.btn2} onPress={()=>handleClick("next")} />
             </View>
             <Page style={styles.page}/>
+            
         </View>
     </ImageBackground>
     )
