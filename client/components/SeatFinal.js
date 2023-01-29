@@ -8,7 +8,7 @@ import {
   } from "react-native";
   import { Center, Heading, Box, VStack, FormControl, Input } from "native-base";
   import * as Progress from "react-native-progress";
-  import seat from "../assets/8a.jpg";
+  import seat from "../assets/8a.png";
   import { userInputs } from "../store/States";
   import {useRecoilState} from 'recoil';
 
