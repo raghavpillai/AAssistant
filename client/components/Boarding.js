@@ -8,12 +8,13 @@ import {
   } from "react-native";
   import { Center, Heading, Box, VStack, FormControl, Input } from "native-base";
   import * as Progress from "react-native-progress";
-  
+  import ProgressBar from "./ProgressBar";
   export default function Boarding() {
     return (
       <>
         <View style={styles.container}>
             <Text style={styles.text}>Group 1 is now boarding</Text>
+            <ProgressBar></ProgressBar>
         </View>
       </>
     );
@@ -32,7 +33,8 @@ import {
         lineHeight: 25,
         fontWeight: "bold",
         letterSpacing: 0.25,
-        color: "black",
+        color: 'rgb(70,145,247)',
+        textAlign: 'center'
       },
   });
   
