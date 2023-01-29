@@ -6,16 +6,9 @@ import {
   Heading,
   VStack,
   FormControl,
-  
 } from "native-base";
 
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
- 
-} from 'react-native';
+import { Button, StyleSheet, Text, View } from "react-native";
 
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -46,8 +39,8 @@ const BagSeat = () => {
   };
 
   const Page = () => {
-    return(<BagConfirmation />)
-}
+    return <BagConfirmation />;
+  };
 
   return (
     <View style={styles.container}>
@@ -81,11 +74,6 @@ const BagSeat = () => {
           />
         )}
       />
-    
-          
-      
-            
-         
     </View>
   );
 };
@@ -142,6 +130,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   btn: {
-    marginTop: '100%',
-  }
+    marginTop: "100%",
+  },
 });
