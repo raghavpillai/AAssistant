@@ -37,7 +37,6 @@ export default function LandingPage() {
             return(<BagConfirmation/>)
         }
         else if (view == 2) {
-          console.log(security)
           return(<ToSecurity security={security}/>)
         }
         else if (view == 3) {
@@ -74,7 +73,7 @@ export default function LandingPage() {
           return (<Text>Wait for your boarding group to be called</Text>)
         }
         else if (view == 5)
-          return (<Text>Make your way to seat</Text>)
+          return (<Text>Make your way to your seat</Text>)
         else {
           return (<Text>View your time break down</Text>)
         }
