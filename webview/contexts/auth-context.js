@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { auth, ENABLE_AUTH } from '../lib/auth';
+// import { auth, ENABLE_AUTH } from '../lib/auth';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -89,7 +89,7 @@ export const AuthProvider = (props) => {
 
     // Check if authentication with Zalter is enabled
     // If not, then set user as authenticated
-    if (!ENABLE_AUTH) {
+    if (false && !ENABLE_AUTH) {
       const user = {};
 
       dispatch({
@@ -101,7 +101,7 @@ export const AuthProvider = (props) => {
 
     try {
       // Check if user is authenticated
-      const isAuthenticated = await auth.isAuthenticated();
+      const isAuthenticated = true || await auth.isAuthenticated();
 
       if (isAuthenticated) {
         // Get user from your database

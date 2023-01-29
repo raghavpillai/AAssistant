@@ -7,8 +7,17 @@ import { TotalBags } from '../components/overview/total-bags';
 import { BagCapacity } from '../components/overview/bag-capacity';
 import { PassengerStatuses } from '../components/overview/passenger-statuses';
 import { DashboardLayout } from '../components/dashboard-layout';
+import React from 'react';
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 const Page = () => (
+  <RecoilRoot>
   <>
     <Head>
       <title>
@@ -103,6 +112,7 @@ const Page = () => (
       </Container>
     </Box>
   </>
+  </RecoilRoot>
 );
 
 Page.getLayout = (page) => (

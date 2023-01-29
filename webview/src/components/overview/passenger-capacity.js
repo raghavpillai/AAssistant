@@ -24,7 +24,7 @@ export const PassengerCapacity = (props) => (
             color="textPrimary"
             variant="h4"
           >
-            275
+            27500
           </Typography>
         </Grid>
         <Grid item>

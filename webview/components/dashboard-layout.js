@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { AuthGuard } from './auth-guard';
 import { DashboardNavbar } from './dashboard-navbar';
 import { DashboardSidebar } from './dashboard-sidebar';
+import { RecoilRoot } from 'recoil';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -20,6 +21,7 @@ export const DashboardLayout = (props) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
+    <RecoilRoot>
     <AuthGuard>
       <DashboardLayoutRoot>
         <Box
@@ -39,5 +41,6 @@ export const DashboardLayout = (props) => {
         open={isSidebarOpen}
       />
     </AuthGuard>
+    </RecoilRoot>
   );
 };
