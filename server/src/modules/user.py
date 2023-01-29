@@ -48,7 +48,6 @@ class User(object):
                 "password": self.password,
                 "full_name": self.full_name,
                 "level": self.admin_level,
-                "flight_num": self.flight_number,
                 "bags": self.bags,
                 "ticket_number": self.ticket_number,
                 "flight_number": self.flight_number,
