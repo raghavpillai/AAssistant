@@ -77,7 +77,24 @@ class SecurityGates:
         security_wait_time = waitTimePredictions[bisect.bisect_left(binary_searchable_wait_times, departure_time) % len(waitTimePredictions)]["waitMinutes"]
         return security_wait_time
 
+    @classmethod
+    def get_travel_time(cls, cur_loc):
+        # cur_loc is a tuple of [lat, long]
+        params = {
+            'origins': f"{str(cur_loc[0])},{str(cur_loc[1])}",
+            'destinations': "32.906005,-97.039366",
+            'key': 'AIzaSyBJ6AqAaKcN_gasy2YE2DcRQm77Ip-KBkc',
+        }
+        headers = {
+            "Accept-Language": "en-US,en;q=0.5"
+        }
+
+        response = requests.get('https://maps.googleapis.com/maps/api/distancematrix/json', params=params, headers=headers)
+        return response.json()['rows'][0]['elements'][0]['duration']['text']
+
 if __name__ == "__main__":
+    print(SecurityGates.get_travel_time([30.624804, -96.331321]))
+    exit()
     SecurityGates.fetch_gates()
     for i in range(0, 10):
         print(SecurityGates.get_time("E9", 1600000000 + 900 * i))
