@@ -295,3 +295,13 @@ class ActionHandler:
 
         return SecurityGates.get_departure_info(boarding_time, gate)
         
+    @classmethod
+    def get_flight_nums(cls):
+        return list(flight_data.keys())
+    
+    @classmethod
+    def get_all_users_by_flight(cls, flight_number):
+        db_search_results = Persistence.get_collection(user_db, flight_number)
+        if not db_search_results:
+            return [False, "invalid flight"]
+        return [True, db_search_results]
