@@ -19,7 +19,7 @@ import BagConfirmation from "./BagConfirmation";
 import { RNSVGSymbol } from "react-native-svg";
 import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
 
-import { userInputs, loggedState, ticketNum, bagIds } from "../store/States";
+import { userInputs, loggedState, ticketNum, bagIds, securityGate, timeDelay } from "../store/States";
 
 const data = [
   {
@@ -27,10 +27,19 @@ const data = [
     value: "1",
   },
   { label: "5B", value: "2" },
-  { label: "5C", value: "3" },
-  { label: "6A", value: "4" },
-  { label: "6B", value: "5" },
-  { label: "6C", value: "6" },
+  { label: "5E", value: "3" },
+  { label: "5F", value: "4" },
+  { label: "6A", value: "6" },
+  { label: "6B", value: "7" },
+  { label: "6E", value: "8" },
+  { label: "6F", value: "9" },
+  { label: "7A", value: "6" },
+  { label: "7B", value: "7" },
+  { label: "7C", value: "8" },
+  { label: "7D", value: "9" },
+  { label: "7E", value: "10" },
+  { label: "7F", value: "11" },
+
 ];
 
 const data1 = [
@@ -64,9 +73,10 @@ const BagSeat = ({func}) => {
   const [user, setUser] = useRecoilState(loggedState)
   const [ticket, setTicket] = useRecoilState(ticketNum)
   const [ids, setId] = useRecoilState(bagIds)
+  const [sec, setSec] = useRecoilState(securityGate)
+  const [delay, setDelay] = useRecoilState(timeDelay)
 
   const handleClick = () => {
-    console.log(seat, bags)
     setInputs({
       seat: seat,
       bags: parseInt(bags)
@@ -80,7 +90,7 @@ const BagSeat = ({func}) => {
           "username": user.name,
           "query": {
               "type": "checkin_bags",
-              "flight_number": ticket[1].flight.name,
+              "flight_number": ticket[1][0].name,
               "bag_count": parseInt(bags)
           }
         })
@@ -88,6 +98,44 @@ const BagSeat = ({func}) => {
         .then(res => {
           console.log(res[1])
         setId(res[1])
+    })
+    fetch('http://127.0.0.1:5000/api/post', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({
+          "username": user.name,
+          "query": {
+              "type": "select_seat",
+              "flight_number": ticket[1][0].name,
+              "flight_seat": seat
+          }
+        })
+      }).then(response => response.json())
+        .then(res => {
+          console.log(res)
+    })
+    fetch('http://127.0.0.1:5000/api/post', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({
+          "username": user.name,
+          "query": {
+              "type": "get_travel_times",
+              "gate": ticket[1][0].gate,
+          }
+        })
+      }).then(response => response.json())
+        .then(res => {
+          setDelay({
+            totalDelay:parseFloat(res[1].total_time_to_gate),
+            travelTime:parseFloat(res[1].travel_time_to_checkpoint),
+            checkpointDelay:parseFloat(res[1].routed_gates[0][1]),
+          })
+          setSec(res[1].routed_gates[0])
     })
     func(1)
   }

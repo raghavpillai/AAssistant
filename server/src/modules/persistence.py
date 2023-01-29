@@ -15,15 +15,6 @@ except:
 #print(client.list_database_names()) # List database names
 #print(db.list_collection_names())
 
-user_dict = {
-    "user_acc": {
-        "id": 67702,
-        "password": "test_password",
-        "level": "user",
-        "flight_num": "AA 1511"
-    }
-}
-
 class Persistence:
     @classmethod
     def get_collection(cls, collection: Collection, key, override: str=None):

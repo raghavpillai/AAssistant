@@ -84,8 +84,8 @@ export default function ToAirport({gate, security}) {
           longitude:responseJson.results[0].geometry.location.lng
         },
         {
-          latitude:checkpoints[security].latitude,
-          longitude:checkpoints[security].longitude
+          latitude:checkpoints[security[0]].latitude,
+          longitude:checkpoints[security[0]].longitude
         }
       ])
     })

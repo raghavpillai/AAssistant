@@ -45,9 +45,8 @@ class SecurityGates:
         response_status: dict = wait_data["status"]
         checkpoints: dict = data["checkpoints"]
         lanes: dict = data["lanes"]
-
         for gate in checkpoints:
-            match gate["open"]:
+            match gate["lane"]:
                 case "General":
                     cls.security_gates["General"][gate["name"]] = gate
                 case "TSA Pre":
@@ -71,7 +70,6 @@ class SecurityGates:
         # first fix departure_time so that it's the same day or whatever as the wait times in the security gates
         departure_time %= SECONDS_IN_DAY
         gate_letter: str = gate[0]
-
         possible_gates: list = [x for x in cls.security_gates[boarding_type].keys() if x[0] == gate_letter and cls.security_gates[boarding_type][x]["open"]]
         gate_times: dict = {}
 
@@ -83,6 +81,7 @@ class SecurityGates:
 
         #convert gate_times to a list of lists
         gate_times: list = [[x[0], x[1]] for x in gate_times]
+        gate_times.append([gate, 17.125])
         return gate_times# or [gate, 17.125]
 
 
@@ -132,9 +131,10 @@ class SecurityGates:
         Function to get departure info
         @param departure_time[int]: Boarding time of flight, unix time in seconds
         """
-        travel_time_to_checkpoint = SecurityGates.get_travel_time([30.624804, -96.331321])/60 # Convert to mins from seconds
+        travel_time_to_checkpoint = float(SecurityGates.get_travel_time([30.624804, -96.331321])/60) # Convert to mins from seconds
         routed_gates = SecurityGates.get_time(gate, boarding_time)
-        checkpoint_to_gate_time = routed_gates[1]
+        print(routed_gates)
+        checkpoint_to_gate_time = float(routed_gates[0][1])
         total_time_to_gate = travel_time_to_checkpoint + checkpoint_to_gate_time # Time in mins
         time_to_leave = boarding_time - (total_time_to_gate*60)
 

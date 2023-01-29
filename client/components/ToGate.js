@@ -80,8 +80,8 @@ export default function ToAirport({security, gate}) {
     .then(responseJson => {
       setCoords([
         {
-          latitude:checkpoints[security].latitude,
-          longitude:checkpoints[security].longitude
+          latitude:checkpoints[security[0]].latitude,
+          longitude:checkpoints[security[0]].longitude
         },
         {
           latitude:responseJson.results[0].geometry.location.lat,
