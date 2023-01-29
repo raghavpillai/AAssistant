@@ -9,7 +9,7 @@ import {
 import { Center, Heading, Box, VStack, FormControl, Input } from "native-base";
 import * as Progress from "react-native-progress";
 import { Pressable } from "react-native";
-
+import ProgressBar from "./ProgressBar";
 export default function CheckInButton({func}) {
   return (
     <>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: "absolute",
-    marginTop: "30%",
+    marginTop: "20%",
     marginLeft: "17.0%",
     alignItems: "center",
     justifyContent: "center",

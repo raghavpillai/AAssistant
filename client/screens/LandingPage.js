@@ -16,10 +16,13 @@ import ToSecurity from '../components/ToSecurity';
 import ToGate from '../components/ToGate';
 import Boarding from '../components/Boarding';
 import SeatFinal from '../components/SeatFinal'
+import t from '../assets/test.png'
 
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
+    const [viewTask, setViewTask] = useState(0)
+    
     const Page = () => {
         if(view == 0){
             return(<CheckInButton func={setView}/>)
@@ -34,23 +37,57 @@ export default function LandingPage() {
           return (<ToAirport/>)
         }
         else if (view == 4) {
-          return (<ToGate/>)
+          return (<ToSecurity/>)
+        }
+        else if (view == 5) {
+          return (<Boarding/>)
+        }
+        else if (view == 6) {
+          return (<SeatFinal/>)
         }
         else 
           return(<ToSecurity/>)
     }
 
-    const handleClick = (side) => {
+    const Task = () => {
+        if (viewTask == 0) {
+          return (<Text>Please check in within 48 hours.</Text>)
+        }
+        else if (viewTask == 1) {
+          return (<Text>Hello</Text>)
+        }
+        else if (viewTask == 2) {
+          return
+        }
+    }
+
+
+
+    const handleClickTask = (side) => {
       if(side === "left"){
-          if(view == 0){
-              setView(7)
+          if(viewTask == 0){
+              setViewTask(2)
           }
           else{
-              setView(Math.abs(view-1)%6)
+              setViewTask(Math.abs(viewTask-1)%2)
           }
       }
       else{
-          setView(Math.abs(view+1)%6)
+          setViewTask(Math.abs(viewTask+1)%2)
+      }
+    }
+
+    const handleClick = (side) => {
+      if(side === "left"){
+          if(view == 0){
+              setView(6)
+          }
+          else{
+              setView(Math.abs(view-1)%7)
+          }
+      }
+      else{
+          setView(Math.abs(view+1)%7)
       }
     }
     return(
@@ -70,14 +107,14 @@ export default function LandingPage() {
       <View style={styles.task}>
         <View style={[styles.spacersm, styles.row]}>
           <Text style={[styles.light, styles.bold]}>Task</Text>
-          <Text style={[styles.bold, styles.major]}>Check-in to your flight in 48 hrs.</Text>
+          <Text style={[styles.bold, styles.major]}><Task/></Text>
         </View>
       </View>
 
         <View style={styles.card}>
             <View style={styles.buttonrow}>
            
-        <Button title="back" style={styles.btn1} onPress={()=>handleClick("next")} />
+        <Button title="back" style={styles.btn1} onPress={()=>handleClick("left")} />
              
               <Button title="next" style={styles.btn2} onPress={()=>handleClick("next")} />
             </View>
