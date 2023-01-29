@@ -16,8 +16,9 @@ export default function BagConfirmation() {
       <View style={styles.container}>
         <Text style={styles.text}>
         `Check-in successful! 
-        Bag ID's {'\n'} 12345 {'\n'} 12345
-
+        Bag ID's
+        12345
+        12345`
         </Text>
       </View>
     </>

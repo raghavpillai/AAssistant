@@ -28,7 +28,6 @@ const BagSeat = () => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [text, onChangeText] = React.useState("");
-  const bags = [];
   const renderLabel = () => {
     if (value || isFocus) {
       return (
@@ -38,8 +37,13 @@ const BagSeat = () => {
     return null;
   };
 
-  const Page = () => {
-    return <BagConfirmation />;
+  const renderLabel1 = () => {
+    if (value || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && { color: "blue" }]}>Bag</Text>
+      );
+    }
+    return null;
   };
 
   return (

@@ -18,13 +18,16 @@ export default function LandingPage() {
     const [view, setView] = useState(0)
     const Page = () => {
         if(view == 0){
-            return(<ToSecurity/>)
+            return(<CheckInButton/>)
         }
         else if(view == 1){
-            return(<CheckInButton />)
-        }
-        else{
             return(<BagSeat />)
+        }
+        else if (view == 2){
+            return(<BagConfirmation/>)
+        }
+        else if (view == 3) {
+          return (<ToSecurity/>)
         }
     }
 
@@ -32,14 +35,14 @@ export default function LandingPage() {
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(3)
+              setView(4)
           }
           else{
-              setView(Math.abs(view-1)%3)
+              setView(Math.abs(view-1)%4)
           }
       }
       else{
-          setView(Math.abs(view+1)%3)
+          setView(Math.abs(view+1)%4)
       }
     }
     return(
