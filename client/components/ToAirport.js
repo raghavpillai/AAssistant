@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     },
     map1: {
       width:"105.27%",
-      height: "334%"
+      height: "295%",
+      borderRadius: 7
     }
 
 });

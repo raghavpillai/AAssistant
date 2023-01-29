@@ -19,7 +19,7 @@ export default function LandingPage() {
             return(<ToAirport />)
         }
         else if(view == 1){
-            return(<ToAirport />)
+            return(<CheckInButton />)
         }
         else{
             return(<BagSeat />)
@@ -62,6 +62,10 @@ export default function LandingPage() {
       </View>
 
         <View  style={styles.card}>
+            <View style={styles.buttonrow}>
+              <Button title="back" style={styles.btn1} onPress={()=>handleClick("left")} />
+              <Button title="next" style={styles.btn2} onPress={()=>handleClick("right")} />
+            </View>
             <Page style={styles.page}/>
         </View>
     </ImageBackground>
@@ -106,8 +110,6 @@ const styles = StyleSheet.create({
     height: 1000,
   },
   card: {
-    display: 'flex',
-    flexDirection: 'row',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 7,
     height: '40%',
@@ -142,13 +144,24 @@ const styles = StyleSheet.create({
     fontSize: '20px',
   },
   btn1: {
-    height: '5%',
+    position: "absolute",
     flex: 1,
+    justifyContent: 'center',
+    textAlign: 'center',
+
   },
   btn2: {
-    flex:3,
+    position: "absolute",
+    flex: 1,
+    justifyContent: 'center',  
+    textAlign: 'center'  
   },
   page: {
     flex:2,
+  },
+  buttonrow: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: 'center'
   }
 });
