@@ -16,8 +16,8 @@ export default function App() {
     <NativeBaseProvider theme={theme}>
       <NavigationContainer>
         <Tab.Navigator screenOptions={{ headerShown: false }}>
-          <Tab.Screen name="Home" component={Login} />
-          <Tab.Screen name="Status" component={LandingPage} />
+          
+          <Tab.Screen name="Home" component={LandingPage} />
           <Tab.Screen name="Test" component={FindTrip}/>
         </Tab.Navigator>
       </NavigationContainer>
