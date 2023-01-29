@@ -61,7 +61,7 @@ export default function LandingPage() {
           return (<Text>Choose a seat and bag amount</Text>)
         }
         else if (view == 1) {
-          return (<Text>Note down your bag id's</Text>)
+          return (<Text>Note down your bag ids</Text>)
         }
         else if (view == 2) {
           return (<Text>Make your way to the airport terminal</Text>)
