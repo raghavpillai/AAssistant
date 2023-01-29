@@ -17,6 +17,10 @@ import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import BagConfirmation from "./BagConfirmation";
 import { RNSVGSymbol } from "react-native-svg";
+import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
+
+import { userInputs, loggedState, ticketNum, bagIds } from "../store/States";
+
 const data = [
   {
     label: "5A",
@@ -53,7 +57,41 @@ const BagSeat = ({func}) => {
   const [isFocus, setIsFocus] = useState(true);
   const [isFocus1, setIsFocus1] = useState(true);
 
-  const [text, onChangeText] = React.useState("");
+  const [seat, setSeat] = useState('')
+  const [bags, setBags] = useState('')
+
+  const [inputs, setInputs] = useRecoilState(userInputs)
+  const [user, setUser] = useRecoilState(loggedState)
+  const [ticket, setTicket] = useRecoilState(ticketNum)
+  const [ids, setId] = useRecoilState(bagIds)
+
+  const handleClick = () => {
+    console.log(seat, bags)
+    setInputs({
+      seat: seat,
+      bags: parseInt(bags)
+    })
+    fetch('http://127.0.0.1:5000/api/post', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({
+          "username": user.name,
+          "query": {
+              "type": "checkin_bags",
+              "flight_number": ticket[1].flight.name,
+              "bag_count": parseInt(bags)
+          }
+        })
+      }).then(response => response.json())
+        .then(res => {
+          console.log(res[1])
+        setId(res[1])
+    })
+    func(2)
+  }
+
   const renderLabel = () => {
     if (value || isFocus) {
       return (
@@ -92,6 +130,7 @@ const BagSeat = ({func}) => {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(true)}
         onChange={(item) => {
+          setSeat(item.label)
           setValue(item.value);
           setIsFocus(false);
         }}
@@ -117,6 +156,7 @@ const BagSeat = ({func}) => {
         onFocus={() => setIsFocus1(true)}
         onBlur={() => setIsFocus1(true)}
         onChange={(item) => {
+          setBags(item.label)
           setValue1(item.value1);
           setIsFocus1(false);
         }}
@@ -125,7 +165,7 @@ const BagSeat = ({func}) => {
         )}
        
       />
-       <Pressable style={styles.button} onPress={() => func(2)}>
+       <Pressable style={styles.button} onPress={handleClick}>
           <Text style={styles.text}>Submit</Text>
         </Pressable>
     </View>

@@ -12,7 +12,8 @@ import * as Progress from "react-native-progress";
 import t from '../assets/test.png'
 
 
-export default function Widget() {
+export default function Widget({departure, flightNum, gate}) {
+  const date = new Date(departure * 1000);
   return (
     <>
       <View style={styles.container}>
@@ -36,8 +37,8 @@ export default function Widget() {
           </Text>
         </View>
         <View style={styles.row}>
-          <Text style={[styles.item]}>Jan 31, 2023</Text>
-          <Text style={[styles.item]}>AA 20</Text>
+          <Text style={[styles.item]}>{date.getMonth()+1}-{date.getDate()}-{date.getFullYear()}</Text>
+          <Text style={[styles.item]}>{flightNum}</Text>
         </View>
         <View style={[styles.row, styles.spacersm]}>
           <Text style={[styles.item, styles.light, styles.bold]}>Time</Text>
@@ -45,9 +46,9 @@ export default function Widget() {
           <Text style={[styles.item, styles.light, styles.bold]}>Gate</Text>
         </View>
         <View style={styles.row}>
-          <Text style={[styles.item]}>3:25 pm</Text>
-          <Text style={[styles.item]}>D</Text>
-          <Text style={[styles.item]}>D25</Text>
+          <Text style={[styles.item]}>{date.getHours()}:{date.getMinutes()}</Text>
+          <Text style={[styles.item]}>{gate[0]}</Text>
+          <Text style={[styles.item]}>{gate}</Text>
         </View>
       </View>
     </>

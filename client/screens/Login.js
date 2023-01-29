@@ -4,20 +4,46 @@ import { Center, Heading, Box, VStack, FormControl, Button, Input } from "native
 import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
 import aa from '../assets/aatop.png'
 import logo from '../assets/logo.png'
+import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
 
+import { loggedState } from '../store/States';
 
-export default function Login(){
+export default function Login({func}){
 
     const [username, setUser] = useState({})
     const [password, setPass] = useState({})
     const [error, setError] = useState(false)
+    const [user, setU] = useRecoilState(loggedState)
 
     const handleClick = () => {
       if(username.val === '' || password.val === ''){
-        setError(true)
+        setError("Cannot have empty fields")
       }
       else {
-        setError(false)
+        fetch('http://127.0.0.1:5000/api/post', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "username": username.val,
+            "query": {
+                "type": "login",
+                "password": password.val
+            }
+          })
+        }).then(response => response.json())
+        .then(res => {
+          if(!res[0]){
+            setError(res[1])
+          }
+          else{
+            setError(false)
+            setU(res[1])
+            func(true)
+          }
+        })
+        
       }      
     }
 
@@ -50,7 +76,7 @@ export default function Login(){
           </VStack>
         </Box>
         {error && 
-            <Text style={styles.error}>Fields Can't Be Empty</Text>
+            <Text style={styles.error}>{error}</Text>
         }
       </Center>
 

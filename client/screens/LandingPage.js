@@ -8,19 +8,22 @@ import logoimg from '../assets/logo.png'
 import chat from '../assets/chat.png'
 import mail from '../assets/mail.png'
 import Widget from '../components/Widget.js'
-import CheckInButton from '../components/CheckInButton';
-import ToAirport from '../components/ToAirport';
 import BagSeat from '../components/BagSeat';
 import BagConfirmation from '../components/BagConfirmation';
 import ToSecurity from '../components/ToSecurity';
 import ToGate from '../components/ToGate';
 import Boarding from '../components/Boarding';
 import SeatFinal from '../components/SeatFinal'
-import t from '../assets/test.png'
 
+import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
+
+import { loggedState, ticketNum } from '../store/States';
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
+
+    const [user, setU] = useRecoilState(loggedState)
+    const [ticket, setTicket] = useRecoilState(ticketNum)
     
     const Page = () => {
         if (view == 0){
@@ -30,7 +33,7 @@ export default function LandingPage() {
             return(<BagConfirmation/>)
         }
         else if (view == 2) {
-          return(<ToSecurity security={"D22"}/>)
+          return(<ToSecurity security={ticket[1].flight.gate}/>)
         }
         else if (view == 3) {
           return (<ToGate security={"D22"} gate={"25"}/>)
@@ -92,7 +95,13 @@ export default function LandingPage() {
         <Image source={mail}></Image>
       </View>
       
-      <View style={styles.widget}><Widget /></View>
+      <View style={styles.widget}>
+        <Widget 
+          departure={ticket[1].flight.departure_time}
+          flightNum={ticket[1].flight.name}
+          gate={ticket[1].flight.gate}
+        />
+      </View>
       
       <View style={styles.task}>
         <View style={[styles.spacersm, styles.row]}>

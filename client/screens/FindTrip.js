@@ -4,22 +4,44 @@ import {ImageBackground, StyleSheet, Text, View, Image, Pressable} from 'react-n
 import { Center, Heading, Box, VStack, FormControl, Input,Button } from "native-base";
 
 import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
-import aa from '../assets/aatop.png'
 import logoimg from '../assets/logo.png'
-import chat from '../assets/chat.png'
-import mail from '../assets/mail.png'
-import Widget from '../components/Widget.js'
-import CheckInButton from '../components/CheckInButton';
-import ToAirport from '../components/ToAirport';
-import BagSeat from '../components/BagSeat';
-import BagConfirmation from '../components/BagConfirmation';
-import ToSecurity from '../components/ToSecurity';
-import ToGate from '../components/ToGate';
-import Boarding from '../components/Boarding';
-import SeatFinal from '../components/SeatFinal'
 
+import {RecoilRoot,atom,selector,useRecoilState,useRecoilValue,} from 'recoil';
 
-export default function FindTrip() {   
+import { loggedState, ticketNum } from '../store/States';
+
+export default function FindTrip({ navigation }) {   
+
+  const [fname, setFname] = useState({})
+  const [lname, setLname] = useState({})
+  const [user, setU] = useRecoilState(loggedState)
+  const [ticket, setTicket] = useRecoilState(ticketNum)
+
+  const handleClick = () => {
+    console.log(user)
+    console.log(user.name)
+    console.log(ticket)
+    fetch('http://127.0.0.1:5000/api/post', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "username": user.name,
+        "query": {
+            "type": "get_flight_status",
+            "flight_number": ticket.value
+        }
+      })
+    }).then(response => response.json())
+    .then(res => {
+      console.log(res)
+      setTicket(res)
+      navigation.navigate('Dashboard')
+    })
+    
+  }
+
     return(
     <ImageBackground source={bgimg} resizeMode="cover" style={styles.image} h="20%">
       <View style={styles.top}>
@@ -34,17 +56,17 @@ export default function FindTrip() {
           <VStack space={3} mt="5" style={styles.stack}>
             <FormControl>
               <FormControl.Label _text={{color: "rgb(103,121,134)"}}>First Name</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="" />
+              <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setFname({ ...fname, val: value})}/>
             </FormControl>
             <FormControl>
               <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Last Name</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="" />
+              <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setLname({ ...lname, val: value})}/>
             </FormControl>
             <FormControl>
               <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Record locator / ticket or credit number</FormControl.Label>
-              <Input _text={{color: "#ffffff"}} type="" />
+              <Input _text={{color: "#ffffff"}} type="" onChangeText={value => setTicket({value})}/>
             </FormControl>
-            <Button mt="2" _pressed={{backgroundColor: "#1153a9"}} bg="#3375cb">
+            <Button mt="2" _pressed={{backgroundColor: "#1153a9"}} bg="#3375cb" onPress={handleClick}>
               Search
             </Button>
           </VStack>
