@@ -26,7 +26,7 @@ export default function Widget({departure, flightNum, gate}) {
           <Text style={[styles.item]}>London</Text>
         </View>
         <View>
-            <Progress.Bar progress={1} width={315} color={'rgba(150,150,150, 1)'} borderColor={"gray"} borderWidth={.4} style={[styles.bar, styles.spacersm]}/>
+            <Progress.Bar progress={1} width={315} color={'rgba(220,220,220, 1)'} style={[styles.bar, styles.spacersm]}/>
         </View>
         <View style={[styles.row, styles.spacersm]}>
           <Text style={[styles.item, styles.light, styles.bold]}>
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: "90%",
+    height: '10%',
     marginLeft: "5%",
   },
 });
