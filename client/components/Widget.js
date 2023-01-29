@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         width: '95%',
         height: '20%'
-       
     },
     row: {
         display: 'flex',

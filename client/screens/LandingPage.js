@@ -8,21 +8,35 @@ import logoimg from '../assets/logo.png'
 import chat from '../assets/chat.png'
 import mail from '../assets/mail.png'
 import Widget from '../components/Widget.js'
+import CheckIn from '../components/CheckIn';
+import ToAirport from '../components/ToAirport';
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
+    const Page = () => {
+        if(view == 0){
+            return(<CheckIn />)
+        }
+        else if(view == 1){
+            return(<ToAirport />)
+        }
+        else{
+            return(<CheckIn />)
+        }
+    }
 
+    // const items = [a, b, a]
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(4)
+              setView(3)
           }
           else{
-              setView(Math.abs(view-1)%5)
+              setView(Math.abs(view-1)%3)
           }
       }
       else{
-          setView(Math.abs(view+1)%5)
+          setView(Math.abs(view+1)%3)
       }
     }
     return(
@@ -42,16 +56,13 @@ export default function LandingPage() {
       <View style={styles.task}>
         <View style={[styles.spacersm, styles.row]}>
           <Text style={[styles.light, styles.bold]}>Task</Text>
-          <Text style={[styles.bold, styles.major]}>Check into the airport in 48h</Text>
+          <Text style={[styles.bold, styles.major]}>Check-in to your flight in 48 hrs.</Text>
         </View>
       </View>
 
-      <View style={styles.card}>
-        <Button title="left" onPress={()=>handleClick("left")} />
-        <Text>{view}</Text>
-        <Button title="right" onPress={()=>handleClick("right")} />
-      </View>
-
+        <View  style={styles.card}>
+            <Page style={styles.page}/>
+        </View>
     </ImageBackground>
     )
     
@@ -94,12 +105,15 @@ const styles = StyleSheet.create({
     height: 1000,
   },
   card: {
+    display: 'flex',
+    flexDirection: 'row',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 7,
     height: '40%',
     width: '90%',
     marginLeft: '5%',
-    marginTop: '5%'
+    marginTop: '5%',
+    position: 'relative',
   },
   task: {
     marginTop: '-192%',
@@ -124,8 +138,17 @@ const styles = StyleSheet.create({
     color: "#bbbcc0"
   },
   major: {
-    fontSize: '20px'
+    fontSize: '20px',
+    textAlign: 'center'
   },
-
-  
+  btn1: {
+    height: '5%',
+    flex: 1,
+  },
+  btn2: {
+    flex:3,
+  },
+  page: {
+    flex:2,
+  }
 });
