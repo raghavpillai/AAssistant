@@ -12,7 +12,7 @@ def _route_request() -> str: # /api/login/
     """
     body: dict = request.json
     if "username" not in body: return [False, "no username provided"]
-    return json.dumps(SessionHandler.route_request(body["username"], body["query"]))
+    return json.dumps(SessionHandler.route_request(body["username"], body["query"]), default=str)
 
 
 routes: dict = {
