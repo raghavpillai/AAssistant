@@ -3,7 +3,7 @@ import { Center, Heading, Box, VStack, FormControl,  Input } from "native-base";
 import * as Progress from 'react-native-progress';
 import { Pressable } from 'react-native';
 
-export default function CheckIn(){
+export default function CheckInButton(){
     return (
       <>
         <View style={styles.container}>
@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
       },
       text: {
-        marginTop: '-2%',
+        marginTop: '-5%',
         fontSize: 24,
-        lineHeight: 21,
+        lineHeight: 25,
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'white',

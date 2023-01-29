@@ -8,20 +8,21 @@ import logoimg from '../assets/logo.png'
 import chat from '../assets/chat.png'
 import mail from '../assets/mail.png'
 import Widget from '../components/Widget.js'
-import CheckIn from '../components/CheckIn';
+import CheckInButton from '../components/CheckInButton';
 import ToAirport from '../components/ToAirport';
+import BagSeat from '../components/BagSeat';
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
     const Page = () => {
         if(view == 0){
-            return(<CheckIn />)
+            return(<ToAirport />)
         }
         else if(view == 1){
             return(<ToAirport />)
         }
         else{
-            return(<CheckIn />)
+            return(<BagSeat />)
         }
     }
 
@@ -139,7 +140,6 @@ const styles = StyleSheet.create({
   },
   major: {
     fontSize: '20px',
-    textAlign: 'center'
   },
   btn1: {
     height: '5%',

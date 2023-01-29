@@ -1,13 +1,12 @@
 import {StyleSheet, ImageBackground, Image, Text, Button, View} from 'react-native';
 import { Center, Heading, Box, VStack, FormControl,  Input } from "native-base";
 import * as Progress from 'react-native-progress';
-import toDFW from "../assets/map1.jpg"
 
-export default function ToAirport(){
+export default function BagConfirmation(){
     return (
       <>
         <View style={styles.container}>
-        <Image style={styles.map1} source={toDFW}></Image>
+        <Text style={styles.text}>Your bags have been confirmed. Their ID's are:  </Text>
         </View>
       </>
       );
@@ -20,9 +19,13 @@ const styles = StyleSheet.create({
         width: '95%',
         height: '30%'
     },
-    map1: {
-      width:"93%",
-      height: "240%"
-    }
+    text: {
+        marginTop: '-5%',
+        fontSize: 24,
+        lineHeight: 25,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
 
 });
