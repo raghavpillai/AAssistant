@@ -47,6 +47,7 @@ export default function LandingPage() {
           return (<Boarding/>)
         }
         else if(view == 5) {
+          console.log(user)
           return (<SeatFinal/>)
         }
         else {
@@ -58,22 +59,22 @@ export default function LandingPage() {
 
     const Task = () => {
     if (view == 0) {
-          return (<Text>Choose a seat and bag amount</Text>)
+          return (<Text>Choose your seat and any checked bags</Text>)
         }
         else if (view == 1) {
           return (<Text>Note down your bag IDs</Text>)
         }
         else if (view == 2) {
-          return (<Text>Make your way to the airport terminal</Text>)
+          return (<Text>Make your way to the airport terminal by </Text>)
         }
         else if (view == 3) {
-          return (<Text>Make your way to your gate</Text>)
+          return (<Text>Make your way to gate {ticket[1][0].gate}</Text>)
         }
         else if (view == 4) {
-          return (<Text>Wait for your group to be called</Text>)
+          return (<Text>Wait for your boarding group to be called</Text>)
         }
         else if (view == 5)
-          return (<Text>Make your way to your seat</Text>)
+          return (<Text>Make your way to seat</Text>)
         else {
           return (<Text>View your time break down</Text>)
         }
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 7,
+    textAlign: 'center'
   },
   col: {
     display: 'flex',
