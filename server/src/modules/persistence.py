@@ -5,7 +5,7 @@ from pymongo.database import Database
 cluster: str = "mongodb+srv://zen:aapass@aassistant.p1lyoq5.mongodb.net/test" # CLUSTER IP
 try:
     client: MongoClient = MongoClient(cluster, tls=True, tlsAllowInvalidCertificates=True)
-    db: Database = client["db"]
+    db: Database = client["backup_db"]
     user_db: Collection = db.users
     flight_db: Collection = db.flights
     bag_db: Collection = db.bags
@@ -14,15 +14,6 @@ except:
 
 #print(client.list_database_names()) # List database names
 #print(db.list_collection_names())
-
-user_dict = {
-    "user_acc": {
-        "id": 67702,
-        "password": "test_password",
-        "level": "user",
-        "flight_num": "AA 1511"
-    }
-}
 
 class Persistence:
     @classmethod

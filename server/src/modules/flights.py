@@ -224,6 +224,7 @@ class ActionHandler:
             temp_user.status = "unconfirmed"
         
         blacklist = ["11A", "13C", "17F", "20B", "23A", "27E", "29D", "30F"]
+        statuses = ["unconfirmed", "checked_in", "security", "concourse"]
         seat_arr = Flight.get_flight_seats("737-800")
         seats = []
         for row in seat_arr:
@@ -232,6 +233,7 @@ class ActionHandler:
                 if f"{row}{col}" not in blacklist:
                     seats.append(f"{row}{col}")
         
+        statuses = ["unconfirmed", "checked_in", "security", "concourse"]
         print("User Population - A")
         for i in range(148):
             temp_user = User(
@@ -239,8 +241,9 @@ class ActionHandler:
                 "dummy_password",
                 "user",
                 67710+i,
-                f"Dummy {i}"
+                f"Dummy {i}",
             )
+            cls.change_user_progress(temp_user.username, statuses[random.randomint(0,3)])
             cls.add_flight_seat("AA 1511", temp_user.username, seats[i])
             cls.add_bags("AA 1511", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A1B2")
@@ -254,6 +257,7 @@ class ActionHandler:
                 67710+i,
                 f"Dummy {i}"
             )
+            cls.change_user_progress(temp_user.username, statuses[random.randomint(0,3)])
             cls.add_flight_seat("AA 1512", temp_user.username, seats[i])
             cls.add_bags("AA 1512", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A2B2")
@@ -267,6 +271,7 @@ class ActionHandler:
                 67710+i,
                 f"Dummy {i}"
             )
+            cls.change_user_progress(temp_user.username, statuses[random.randomint(0,3)])
             cls.add_flight_seat("AA 1513", temp_user.username, seats[i])
             cls.add_bags("AA 1513", temp_user.username, random.randint(0, 1))
             cls.assign_plane_given_ticket(temp_user.username, "A3B2")
@@ -286,7 +291,7 @@ class ActionHandler:
                 f_data.get("destination")
             )
             #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
-        print("Finished Flight")
+        print("Finished Flight Population")
     
     @classmethod
     def get_travel_times(cls, username, gate):
