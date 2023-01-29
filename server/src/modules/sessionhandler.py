@@ -35,4 +35,5 @@ class SessionHandler:
         #ActionHandler.populate_users()
         #ActionHandler.populate_flights()
         #ActionHandler.assign_plane_given_ticket("user_acc", "A1B2")
-        pass
+        print(ActionHandler.get_travel_times("user_acc"))
+        #pass

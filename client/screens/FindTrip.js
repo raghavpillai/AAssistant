@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {ImageBackground, StyleSheet, Text, View, Image, Pressable} from 'react-native';
 import { Center, Heading, Box, VStack, FormControl, Input,Button } from "native-base";
 
-import bgimg from '../assets/wallpaperflare.com_wallpaper.jpg'
+import bgimg from '../assets/wp.png'
 import aa from '../assets/aatop.png'
 import logoimg from '../assets/logo.png'
 import chat from '../assets/chat.png'

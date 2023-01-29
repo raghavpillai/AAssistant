@@ -2,6 +2,7 @@ import time
 from src.modules.persistence import Persistence, user_db, flight_db
 from src.modules.user import User, user_data
 from src.modules.flight import Flight
+from src.modules.securitygates import SecurityGates
 
 ticket_numbers: dict = {
     "A1B2": "AA 1511"
@@ -9,8 +10,8 @@ ticket_numbers: dict = {
 
 flight_data: dict = {
     "AA 1511": {
-        "boarding_time": "12:00",
-        "departure_time": "15:00",
+        "boarding_time": 1674985873 + 43200,
+        "departure_time": 1674985873 + 43200 + 1800,
         "gate": "E31",
         "plane_type": "737-800",
     }
@@ -202,3 +203,17 @@ class ActionHandler:
                 f_data.get("gate")
             )
             #cls.add_flight_seat(temp_flight.flight_number, "user_acc", "3A")
+    
+    @classmethod
+    def get_travel_times(cls, username):
+        db_search_results = Persistence.get_collection(user_db, username)
+        if not db_search_results:
+            return [False, "invalid user"]
+        flight_number = db_search_results.get("flight_number")
+        if not flight_number: 
+            return [False, "user has no flight"]
+        flight_db_search = Persistence.get_collection(flight_db, flight_number)
+        boarding_time = flight_db_search.get("boarding_time")
+
+        return SecurityGates.get_departure_info(boarding_time)
+        

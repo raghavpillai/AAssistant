@@ -47,7 +47,7 @@ class SecurityGates:
         lanes: dict = data["lanes"]
 
         for gate in checkpoints:
-            match gate["lane"]:
+            match gate["open"]:
                 case "General":
                     cls.security_gates["General"][gate["name"]] = gate
                 case "TSA Pre":
@@ -83,7 +83,7 @@ class SecurityGates:
 
         #convert gate_times to a list of lists
         gate_times: list = [[x[0], x[1]] for x in gate_times]
-        return gate_times
+        return gate_times or [gate, 17.125]
 
 
     @classmethod
@@ -123,10 +123,33 @@ class SecurityGates:
         }
 
         response = requests.get('https://maps.googleapis.com/maps/api/distancematrix/json', params=params, headers=headers)
-        return response.json()['rows'][0]['elements'][0]['duration']['text']
+        return response.json()['rows'][0]['elements'][0]['duration']['value']
+
+
+    @classmethod
+    def get_departure_info(cls, boarding_time: int) -> list:
+        """
+        Function to get departure info
+        @param departure_time[int]: Boarding time of flight, unix time in seconds
+        """
+        travel_time_to_checkpoint = SecurityGates.get_travel_time([30.624804, -96.331321])/60 # Convert to mins from seconds
+        checkpoint_to_gate_time = SecurityGates.get_time("E9", boarding_time)[1]
+        total_time_to_gate = travel_time_to_checkpoint + checkpoint_to_gate_time # Time in mins
+        time_to_leave = boarding_time - (total_time_to_gate*60)
+
+        return [True, {
+            "travel_time_to_checkpoint": travel_time_to_checkpoint,
+            "checkpoint_to_gate_time": checkpoint_to_gate_time,
+            "total_time_to_gate": total_time_to_gate,
+            "time_to_leave": time_to_leave # Unix time in seconds
+        }]
+
+
 
 if __name__ == "__main__":
-    print(SecurityGates.get_travel_time([30.624804, -96.331321]))
+    print(SecurityGates.get_departure_info(1674982887 + 43200))
+    #print(SecurityGates.get_travel_time([30.624804, -96.331321]))
+    #print(SecurityGates.get_time("E9", 1600000000 + 900))
     exit()
     SecurityGates.fetch_gates()
     for i in range(0, 10):
