@@ -27,8 +27,6 @@ user_dict = {
 class Persistence:
     @classmethod
     def get_collection(cls, collection: Collection, key, override: str=None):
-
-
         if not isinstance(collection, Collection): 
             print("Not a valid collection")
             return 0
