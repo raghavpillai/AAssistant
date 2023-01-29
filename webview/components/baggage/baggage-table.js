@@ -18,7 +18,8 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
 import { useEffect } from 'react';
 import { useState } from 'react';
-
+import { useRecoilValue } from 'recoil';
+import { flightNumberAtom } from '../atoms';
 const const_orders = [
   {
     id: uuid(),
@@ -39,75 +40,41 @@ const const_orders = [
     },
     createdAt: 1555016400000,
     status: 'boarded'
-  },
-  /*
-    {
-      id: uuid(),
-      ref: 'CDD1047',
-      amount: 10.99,
-      customer: {
-        name: 'Alexa Richardson'
-      },
-      createdAt: 1554930000000,
-      status: 'refunded'
-    },
-    {
-      id: uuid(),
-      ref: 'CDD1046',
-      amount: 96.43,
-      customer: {
-        name: 'Anje Keizer'
-      },
-      createdAt: 1554757200000,
-      status: 'pending'
-    },
-    {
-      id: uuid(),
-      ref: 'CDD1045',
-      amount: 32.54,
-      customer: {
-        name: 'Clarke Gillebert'
-      },
-      createdAt: 1554670800000,
-      status: 'delivered'
-    },
-    {
-      id: uuid(),
-      ref: 'CDD1044',
-      amount: 16.76,
-      customer: {
-        name: 'Adam Denisov'
-      },
-      createdAt: 1554670800000,
-      status: 'delivered'
-    }
-  */
+  }
 ];
 
 export const BaggageTable = (props) => {
+  const flightNumber = useRecoilValue(flightNumberAtom);
   useEffect(() => {
-    console.log("here");
     const url = 'http://127.0.0.1:5000/api/post';
     const body = {
       "username": "admin_acc",
       "query": {
-        "type": "get_flight_status",
-        "flight_number": "AA 1511"
+        "type": "get_bag_db",
+        "flight_number": flightNumber
       }
     };
     const headers = {
       'Content-Type': 'application/json'
     };
-    fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(body)}).then((data) => {
-      console.log(data.json());
-      // setOrders(data);
+    fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(body)})
+    .then(data => data.json())
+    .then((data) => {
+      let bags_data = []
+      data.forEach((bag) => bags_data.push({
+        "luggage_id": bag.name,
+        "owner_id": bag.owner,
+        "from": bag.from,
+        "to": bag.to
+      }));
+
+      setBags(bags_data);
     }).catch((err) => {
       console.log(err);
     });
-    console.log("here2");
   }, []);
 
-  const [orders, setOrders] = useState([]);
+  const [bags, setBags] = useState([]);
 
   return (
     <Card {...props}>
@@ -123,9 +90,9 @@ export const BaggageTable = (props) => {
                 <TableCell>
                   Owner ID
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   Owner Name
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   From
                 </TableCell>
@@ -135,31 +102,32 @@ export const BaggageTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => (
+              {bags.map((order) => (
                 <TableRow
                   hover
-                  key={order.id}
+                  key={order['luggage_id']}
                 >
                   <TableCell>
-                    {order.id.substring(0, 6)}
+                    {order['luggage_id']}
                   </TableCell>
                   <TableCell>
-                    {order.customer.name}
+                    {order['owner_id']}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     {order.seat_number}
+                  </TableCell> */}
+                  <TableCell>
+                    {order['from']}
                   </TableCell>
                   <TableCell>
-                    {order.bag_count}
-                  </TableCell>
-                  <TableCell>
-                    <SeverityPill
+                  {order['to']}
+                    {/* <SeverityPill
                       color={(order.status === 'boarded' && 'success')
                         || (order.status === 'booked' && 'error')
                         || 'warning'}
                     >
                       {order.status}
-                    </SeverityPill>
+                    </SeverityPill> */}
                   </TableCell>
                 </TableRow>
               ))}
