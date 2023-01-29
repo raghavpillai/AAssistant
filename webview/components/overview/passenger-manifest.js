@@ -85,7 +85,7 @@ export const PassengerManifest = (props) => {
               status: response[1]["user"]["status"]
             });
             setPassengers(database_passengers.slice());
-            console.log(response);
+            // console.log(response);
           });
         });
       }).catch((err) => {
