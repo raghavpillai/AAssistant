@@ -39,7 +39,7 @@ export default function LandingPage() {
           return (<ToGate terminal={"terminal c"} gate={"31"}/>)
         }
         else if (view == 5) {
-          return(<ToSecurity gate={"31"} security={"2"}/>)
+          return(<ToSecurity gate={"31"} security={"A12"}/>)
         }
         else if (view == 6) {
           return (<Boarding/>)
@@ -74,7 +74,6 @@ export default function LandingPage() {
         else 
           return (<SeatFinal/>)
     }
-
 
     const handleClick = (side) => {
       if(side === "left"){
