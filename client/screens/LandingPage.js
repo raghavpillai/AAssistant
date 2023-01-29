@@ -66,7 +66,7 @@ export default function LandingPage() {
               <Button title="back" style={styles.btn1} onPress={()=>handleClick("left")} />
               <Button title="next" style={styles.btn2} onPress={()=>handleClick("right")} />
             </View>
-            <Page style={styles.page}/>
+            <Page style={styles.page} func={handleClick}/>
         </View>
     </ImageBackground>
     )
