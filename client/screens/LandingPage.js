@@ -61,7 +61,6 @@ export default function LandingPage() {
         }
     }
 
-
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
