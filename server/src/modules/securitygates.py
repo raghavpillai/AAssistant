@@ -83,7 +83,7 @@ class SecurityGates:
 
         #convert gate_times to a list of lists
         gate_times: list = [[x[0], x[1]] for x in gate_times]
-        return gate_times or [gate, 17.125]
+        return gate_times# or [gate, 17.125]
 
 
     @classmethod
