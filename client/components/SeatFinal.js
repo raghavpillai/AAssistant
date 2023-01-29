@@ -11,7 +11,7 @@ import {
   import seat from "../assets/8a.jpg";
   import { userInputs } from "../store/States";
   import {useRecoilState} from 'recoil';
-    
+
   export default function ToGate() {
     const [seatNum, setSeatNum] = useRecoilState(userInputs)
     console.log(seatNum.seat)
@@ -39,7 +39,7 @@ import {
       transform: [{ rotate: '270deg'}],
     },
     big: {
-      color: '#59eb00',
+      color: 'rgb(215,57,51)',
       weight: 'bold',
       fontSize: 42,
       position: 'absolute',
