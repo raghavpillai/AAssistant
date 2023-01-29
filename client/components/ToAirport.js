@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
         height: '30%'
     },
     map1: {
-      width:"93%",
-      height: "240%"
+      width:"105.27%",
+      height: "334%"
     }
 
 });
