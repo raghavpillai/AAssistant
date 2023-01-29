@@ -74,7 +74,7 @@ export default function ToAirport({gate, security}) {
   }
 
   useEffect(() => {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=dfw+airport+gate+${gate}&key=AIzaSyDQTiDieElmopRZrCBJu3ZEBRt3jnSAvsE`
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=tamu&key=AIzaSyDQTiDieElmopRZrCBJu3ZEBRt3jnSAvsE`
     fetch(url)
     .then(response => response.json())
     .then(responseJson => {
