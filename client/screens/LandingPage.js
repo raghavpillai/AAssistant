@@ -59,6 +59,20 @@ export default function LandingPage() {
         else if (view == 2) {
           return (<Text></Text>)
         }
+        else if (view == 3) {
+          return (<Text></Text>)
+        }
+        else if (view == 4) {
+          return (<Text></Text>)
+        }
+        else if (view == 5) {
+          return (<Text></Text>)
+        }
+        else if (view == 6) {
+          return (<Text></Text>)
+        }
+        else 
+          return (<SeatFinal/>)
     }
 
 

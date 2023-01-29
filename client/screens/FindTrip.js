@@ -18,26 +18,31 @@ import ToGate from '../components/ToGate';
 import Boarding from '../components/Boarding';
 import SeatFinal from '../components/SeatFinal'
 
+
 export default function FindTrip() {   
     return(
-    <ImageBackground source={bgimg} resizeMode="cover" style={styles.image}>
+    <ImageBackground source={bgimg} resizeMode="cover" style={styles.image} h="20%">
+        <Image source={logoimg} style={styles.img}></Image>
       <View style={styles.top}>
-        <Image style={styles.logoimg} source={logoimg}></Image>
-        <Text style={styles.imgtxt}>Find Trip</Text>
-        <Center w="120%" style={styles.container} blurRadius={5}>
-        <Box safeArea p="2" w="100%" maxW="380" py="8">
-          
+        <Center w="80%" style={styles.container} blurRadius={5}>
+        <Box safeArea p="2" w="90%" maxW="290" py="8"  marginBottom="30%" >
+          <Heading size="lg" color="coolGray.800" fontWeight="semibold" >
+          </Heading>
+          <Heading mt="1" color="#000000" fontWeight="medium" size="xs" >
+          </Heading>
           <VStack space={3} mt="5" style={styles.stack}>
             <FormControl>
+              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>First Name</FormControl.Label>
               <Input _text={{color: "#ffffff"}} type="" />
             </FormControl>
             <FormControl>
-              <Input _text={{color: "#ffffff"}} type="password" />
+              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Last Name</FormControl.Label>
+              <Input _text={{color: "#ffffff"}} type="" />
             </FormControl>
             <FormControl>
-              <Input _text={{color: "#ffffff"}} type="password" />
+              <FormControl.Label _text={{color: "rgb(103,121,134)"}}>Record locator / ticket or credit number</FormControl.Label>
+              <Input _text={{color: "#ffffff"}} type="" />
             </FormControl>
-         
             <Button mt="2" _pressed={{backgroundColor: "#1153a9"}} bg="#3375cb">
               Search
             </Button>
@@ -50,69 +55,31 @@ export default function FindTrip() {
 };
 
 const styles = StyleSheet.create({
-  image: {
-    height: "100%",
-    flex: 1,
-  },
-  text: {
-    color: 'white',
-    fontSize: 20,
-    lineHeight: 84,
-    fontWeight: 'bold',
-    padding: "10%",
-  },
-  top: {
-    flexDirection:'row', 
-    flexWrap:'wrap',
-    paddingTop: '15%',
+    image: {
+        width: '100%',
+        height: '120%',
+        marginTop: '-10%',
+        position: 'absolute',
+    },
+    container: {
+    height: '50%',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      marginLeft: '10%',
+      borderRadius: 10,
+      marginTop: '65%',
+      marginLeft: '13.5%',
+    },
+    label: {
+        color: '#ffffff'
+    },
+    logo: {
+      position: 'absolute',
+      marginTop: '-5%',
+      width: '100%',
+    },
+    img: {
+        height: 80,
+        weight: 20,
+    }
  
-  },
-  logo: {
-    padding: '10%',
-  },
-  companylogo: {
-    width: 160,
-    height: 40,
-    marginLeft: "23%",
-    marginTop: "10%",
-  },
-  logoimg: {
-    width: 60,
-    height: 50,
-    marginTop: "10%",
-  },
-  imgtxt: {
-    width: 100,
-    height: 60,
-    marginTop: "15%",
-    fontSize: '26',
-    color: 'white',
-  },
-
-
-  card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 7,
-    height: '40%',
-    width: '90%',
-    marginLeft: '5%',
-    marginTop: '5%',
-    position: 'relative',
-  },
-  task: {
-    marginTop: '-192%',
-    marginLeft: '5%',
-    height: '10%',
-    width: '90%',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 7,
-  },
-  col: {
-    display: 'flex',
-    flexDirection: 'column',
-  },    
-  stack: {
-    backgroundColor: "white",
-    marginRight: '20%',
-  }
 });
