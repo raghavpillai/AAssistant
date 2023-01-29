@@ -15,15 +15,6 @@ except:
 #print(client.list_database_names()) # List database names
 #print(db.list_collection_names())
 
-user_dict = {
-    "user_acc": {
-        "id": 67702,
-        "password": "test_password",
-        "level": "user",
-        "flight_num": "AA 1511"
-    }
-}
-
 class Persistence:
     @classmethod
     def get_collection(cls, collection: Collection, key, override: str=None):
@@ -35,6 +26,17 @@ class Persistence:
             if override is not None
             else collection.find_one({"name": key})
         )
+
+    @classmethod
+    def batch_init_collection(cls, collection: Collection, insertion: dict):
+        if not isinstance(collection, Collection): 
+            print("Not a valid collection")
+            return 0
+
+        if not isinstance(insertion, dict):
+            print("Not a valid dict value")
+            return 0
+        return collection.insert_many(insertion)
         
 
     @classmethod
