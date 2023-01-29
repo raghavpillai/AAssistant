@@ -22,8 +22,9 @@ import SeatFinal from '../components/SeatFinal'
 export default function FindTrip() {   
     return(
     <ImageBackground source={bgimg} resizeMode="cover" style={styles.image} h="20%">
-        <Image source={logoimg} style={styles.img}></Image>
       <View style={styles.top}>
+        <Image style={styles.logoimg} source={logoimg}></Image>
+        <Text style={styles.companylogo}>Find Trips</Text>
         <Center w="80%" style={styles.container} blurRadius={5}>
         <Box safeArea p="2" w="90%" maxW="290" py="8"  marginBottom="30%" >
           <Heading size="lg" color="coolGray.800" fontWeight="semibold" >
@@ -66,8 +67,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
       marginLeft: '10%',
       borderRadius: 10,
-      marginTop: '65%',
-      marginLeft: '13.5%',
+      marginTop: '55%',
+      marginLeft: '10%',
     },
     label: {
         color: '#ffffff'
@@ -77,9 +78,26 @@ const styles = StyleSheet.create({
       marginTop: '-5%',
       width: '100%',
     },
-    img: {
-        height: 80,
-        weight: 20,
-    }
+    companylogo: {
+      width: 100,
+      height: 1,
+      marginTop: '34%',
+      marginLeft: '36%',
+      position: "absolute",
+      fontSize: 25,
+      color: "#ffffff"
+    },
+    logoimg: {
+      width: "10%",
+      height: 1,
+      marginTop: '28%',
+      marginLeft: '15%',
+      position: "absolute",
+    },
+    top: {
+      flexDirection:'row', 
+      flexWrap:'wrap',
+      paddingTop: '15%',
+    },
  
 });
