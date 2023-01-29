@@ -13,17 +13,16 @@ import ToAirport from '../components/ToAirport';
 import BagSeat from '../components/BagSeat';
 import BagConfirmation from '../components/BagConfirmation';
 import ToSecurity from '../components/ToSecurity';
+import ToGate from '../components/ToGate';
+
 
 export default function LandingPage() {
     const [view, setView] = useState(0)
     const Page = () => {
         if(view == 0){
-            return(<CheckInButton/>)
-        }
-        else if(view == 1){
             return(<CheckInButton func={setView}/>)
         }
-        else{
+        else if (view == 1){
             return(<BagSeat />)
         }
         else if (view == 2){
@@ -32,20 +31,25 @@ export default function LandingPage() {
         else if (view == 3) {
           return (<ToSecurity/>)
         }
+        else if (view == 4) {
+          return (<ToGate/>)
+        }
+        else 
+          return(<CheckInButton/>)
     }
 
     // const items = [a, b, a]
     const handleClick = (side) => {
       if(side === "left"){
           if(view == 0){
-              setView(4)
+              setView(5)
           }
           else{
-              setView(Math.abs(view-1)%4)
+              setView(Math.abs(view-1)%5)
           }
       }
       else{
-          setView(Math.abs(view+1)%4)
+          setView(Math.abs(view+1)%5)
       }
     }
     return(

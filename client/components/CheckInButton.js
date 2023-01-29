@@ -14,7 +14,7 @@ export default function CheckInButton({func}) {
   return (
     <>
       <View style={styles.container}>
-        <Pressable style={styles.button} onPress={() => func(2)}>
+        <Pressable style={styles.button} onPress={() => func(1)}>
           <Text style={styles.text}>Check In</Text>
         </Pressable>
       </View>

@@ -86,7 +86,6 @@ export default BagSeat;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
     padding: 16,
     width: "100%",
   },
@@ -97,6 +96,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: "10%",
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+
   },
   icon: {
     marginRight: 5,
