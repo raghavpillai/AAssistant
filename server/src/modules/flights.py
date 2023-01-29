@@ -69,6 +69,7 @@ class ActionHandler:
         Persistence.update_collection(user_db, username, {"flight_number": flight_from_ticket})
         if not username not in Persistence.get_collection(flight_db, flight_from_ticket)["passengers"]:
             Persistence.update_collection(flight_db, flight_from_ticket, {"passengers": [username]})
+        return [True, Persistence.get_collection(flight_db, flight_from_ticket)]
 
     
     @classmethod
