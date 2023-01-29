@@ -22,6 +22,7 @@ import t from '../assets/test.png'
 export default function LandingPage() {
     const [view, setView] = useState(0)
     const [viewTask, setViewTask] = useState(0)
+    const [gatecoords, setGate] = useState({});
     
     const Page = () => {
         if(view == 0){
@@ -40,7 +41,7 @@ export default function LandingPage() {
           return (<ToGate terminal={"terminal c"} gate={"31"}/>)
         }
         else if (view == 5) {
-          return(<ToSecurity gate={"31"} security={"2"}/>)
+          return(<ToSecurity gate={"31"} security={"A12"}/>)
         }
         else if (view == 6) {
           return (<Boarding/>)

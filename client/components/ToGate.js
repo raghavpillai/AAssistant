@@ -7,7 +7,7 @@ import MapView from 'react-native-maps'
 import { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
-export default function ToAirport({terminal, gate}) {
+export default function ToAirport({terminal, gate, func}) {
   const mode = 'walking'; // 'walking';
   const origin = `dfw ${terminal}`;
   const destination = `dfw gate ${gate}`;
@@ -20,7 +20,6 @@ export default function ToAirport({terminal, gate}) {
     fetch(url)
     .then(response => response.json())
     .then(responseJson => {
-      console.log(responseJson.routes[0].legs[0].start_location)
       setCoords([
         {
           latitude:responseJson.routes[0].legs[0].start_location.lat,
@@ -31,7 +30,8 @@ export default function ToAirport({terminal, gate}) {
           longitude:responseJson.routes[0].legs[0].end_location.lng
         }
       ])
-    }).catch(e => {console.warn(e)});
+    })
+    .catch(e => {console.warn(e)});
   },[])
 
   if(coordinates != null){
